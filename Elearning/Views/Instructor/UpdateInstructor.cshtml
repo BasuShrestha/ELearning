@@ -1,0 +1,46 @@
+﻿@using Elearning.Models
+@model Instructor
+@{
+    Instructor course = new Instructor();
+    ViewData["text"] = ViewBag.Message;
+    Instructor InstructorSQLData = ViewBag.SQLData;
+}
+
+<div class="flex-column">
+    <div class="align-content-center">
+        <form method="post" asp-action="UpdateInstructorDetail" asp-controller="Instructor">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Update Instructor</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="Name" class="form-control" style="height: 40px;" value="@InstructorSQLData?.Instructors?[0]?.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="courseId">Course_Id</label>
+                        <input type="text" id="courseId" name="Course_Id" class="form-control" style="height: 40px;" value="@InstructorSQLData?.Instructors?[0]?.Course_Id" />
+                    </div>
+                    <br />
+                </div>
+                <input type="hidden" name="Id" value="@InstructorSQLData?.Instructors?[0]?.Instructor_Id" />
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Update Instructor</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<p id="alert">
+    @ViewBag.Message
+</p>
+
+<script>
+    // Hide alert after 3 seconds
+    setTimeout(function () {
+        document.getElementById("alert").style.display = "none";
+    }, 3000);
+</script>

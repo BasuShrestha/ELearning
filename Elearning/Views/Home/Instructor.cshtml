@@ -1,0 +1,47 @@
+﻿@model Elearning.Models.Instructor
+
+@{
+    ViewData["Title"] = "Instructor";
+    ViewData["text"] = ViewBag.Message;
+    Instructor Viewsqldata = ViewBag.sqldata;
+
+    Console.WriteLine(Viewsqldata.Instructors.Count);
+}
+<script>
+    // Hide alert after 3 seconds
+    setTimeout(function () {
+        document.getElementById("alert").style.display = "none";
+    }, 3000);
+</script>
+<h1>Add Instructor</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddInstructor" asp-controller="Home" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" name="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                  @* input type="submit" value="Add" class="btn btn-primary" /> *@
+                <button onclick="hidealert" class="btn btn-info btn-md" value="submit" type="submit">Submit</button>
+            </div>
+        </form>
+        <p id="alert">
+            @ViewBag.Message
+        </p>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@if (ViewData["NewInstructorId"] != null)
+{
+    <div class="alert alert-success">
+        Instructor added successfully! ID: @ViewData["NewInstructorId"]
+    </div>
+}

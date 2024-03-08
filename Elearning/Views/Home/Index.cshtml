@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Elearning.Models.Course>
+
+@{
+    Course ViewSQLData = ViewBag.sqldata;
+}
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Available Courses</h2>
+    <div class="row">
+        @foreach (var course in Model)
+        {
+            <div class="col-md-4 d-flex align-items-sm-stretch">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@course.Title</h5>
+                        <p class="card-text">@course.Description</p>
+                        <a href="#" class="btn btn-primary mt-auto">Go to course</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="text-center">
+    <h1 class="display-1">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
