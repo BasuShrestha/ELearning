@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Elearning.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Elearning.Controllers
 {
@@ -20,7 +21,25 @@ namespace Elearning.Controllers
 
             Course course = new Course();
             course.GetCourses();
-            ViewBag.CourseSqlData = course;
+            if (course.Courses != null)
+            {
+                List<Course> availableCourses = new List<Course> { };
+                foreach (Course c in course.Courses) 
+                {
+                    if (c.Is_Deleted == 0)
+                    {
+                        availableCourses.Add(c);
+                    }
+                }
+                ViewBag.CourseList = new SelectList(availableCourses, "Course_Id", "Title");
+            }
+
+
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"];
+            }
+
             return View();
         }
 
@@ -34,13 +53,14 @@ namespace Elearning.Controllers
 
             if (string.IsNullOrEmpty(instructor.Name))
             {
-                ViewBag.Message = "Empty values in the fields";
+                TempData["Message"] = "Empty values in the fields";
                 return View(instructor);
             }
 
             AddInstructorDetail(instructor);
 
-            ViewBag.Message = "Instructor details inserted successfully";
+            //ViewBag.Message = "Instructor details inserted successfully";
+            TempData["Message"] = "Instructor details inserted successfully";
             return RedirectToAction("InstructorView");
         }
 
@@ -49,7 +69,7 @@ namespace Elearning.Controllers
         {
             if (string.IsNullOrEmpty(instructor.Name) || string.IsNullOrEmpty(instructor.Course_Id.ToString()))
             {
-                ViewBag.Message = "Empty field values";
+                TempData["Message"] = "Empty field values";
                 return View();
             }
             else 
@@ -59,17 +79,31 @@ namespace Elearning.Controllers
                 newInstructor.Course_Id = instructor.Course_Id;
                 newInstructor.AddInstructor(newInstructor);
                 ViewBag.Message = "Instructor details added";
+                TempData["Message"] = "Instructor details inserted successfully";
                 return RedirectToAction("InstructorView");
             }
         }
 
-        [HttpPost]
         public IActionResult UpdateInstructor(int id)
         {
             Instructor instructor = new();
             instructor.GetInstructorById(id);
 
             ViewBag.sqldata = instructor;
+            Course course = new Course();
+            course.GetCourses();
+            if (course.Courses != null)
+            {
+                List<Course> availableCourses = new List<Course> { };
+                foreach (Course c in course.Courses)
+                {
+                    if (c.Is_Deleted == 0)
+                    {
+                        availableCourses.Add(c);
+                    }
+                }
+                ViewBag.CourseList = new SelectList(availableCourses, "Course_Id", "Title");
+            }
             return View("UpdateInstructor", instructor);
         }
 
@@ -78,7 +112,7 @@ namespace Elearning.Controllers
         {
             if (string.IsNullOrEmpty(instructor.Name) || string.IsNullOrEmpty(instructor.Course_Id.ToString()))
             {
-                ViewBag.Message = "Empty fields submitted";
+                TempData["Message"] = "Empty fields submitted";
                 return RedirectToAction("InstructorView");
             }
             else
@@ -86,8 +120,10 @@ namespace Elearning.Controllers
                 Instructor updatedInstructor = new Instructor();
                 updatedInstructor.Name = instructor.Name;
                 updatedInstructor.Course_Id = instructor.Course_Id;
+                Console.WriteLine(instructor.Name);
+                Console.WriteLine(instructor.Course_Id);
                 updatedInstructor.UpdateInstructor(instructor);
-                ViewBag.Message = $"Instructor: {instructor.Name} updated successfully";
+                TempData["Message"] = $"Instructor: {instructor.Name} updated successfully";
                 return RedirectToAction("InstructorView");
             }
         }
@@ -105,11 +141,13 @@ namespace Elearning.Controllers
                 Instructor newInstructor = new Instructor();
                 newInstructor.DeleteInstructor(id);
                 ViewBag.Message = $"Instructor deleted from the database";
+                Console.WriteLine(id);
+                TempData["Message"] = "Instructor deleted!";
                 return RedirectToAction("InstructorView");
             }
             catch (Exception exp)
             {
-                ViewBag.Message = $"Error: {exp.Message}";
+                TempData["Message"] = $"Error: {exp.Message}";
                 return RedirectToAction("InstructorView");
             }
 

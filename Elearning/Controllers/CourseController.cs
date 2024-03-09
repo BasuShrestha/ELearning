@@ -19,6 +19,11 @@ namespace Elearning.Controllers
             Course course = new Course();
             course.GetCourses();
             ViewBag.sqldata = course;
+
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"];
+            }
             return View();
         }
 
@@ -32,13 +37,13 @@ namespace Elearning.Controllers
 
             if (String.IsNullOrEmpty(model.Title))
             {
-                ViewBag.Message = "Error: Don't submit an empty value. PLEASE";
+                TempData["Message"] = "Error: Don't submit an empty value. PLEASE";
                 return View(model);
             }
 
             AddCourseDetail(model);
 
-            ViewBag.Message = "Success: Value will be inserted into the database";
+            TempData["Message"] = "Success: Value will be inserted into the database";
 
             return RedirectToAction("CourseView");
         }
@@ -48,7 +53,7 @@ namespace Elearning.Controllers
         {
             if (string.IsNullOrEmpty(course.Title) || string.IsNullOrEmpty(course.Description))
             {
-                ViewBag.Message = "Empty fields submitted";
+                TempData["Message"] = "Empty fields submitted";
                 return View();
             }
             else
@@ -57,7 +62,7 @@ namespace Elearning.Controllers
                 newCourse.Title = course.Title;
                 newCourse.Description = course.Description;
                 newCourse.AddCourse(newCourse);
-                ViewBag.Message = "Course detail will be inserted into the database";
+                TempData["Message"] = "Course detail added successfully";
                 return RedirectToAction("CourseView");
             }
         }
@@ -76,16 +81,16 @@ namespace Elearning.Controllers
         {
             if (string.IsNullOrEmpty(course.Title) || string.IsNullOrEmpty(course.Description))
             {
-                ViewBag.Message = "Empty fields submitted";
+                TempData["Message"] = "Empty fields submitted";
                 return RedirectToAction("CourseView");
             }
             else
             { 
-                Course updatedCourse = new Course();
-                updatedCourse.Title = course.Title;
-                updatedCourse.Description = course.Description;
-                updatedCourse.UpdateCourse(course);
-                ViewBag.Message = $"Course: {course.Title} updated successfully";
+                //Course updatedCourse = new Course();
+                //updatedCourse.Title = course.Title;
+                //updatedCourse.Description = course.Description;
+                course.UpdateCourse(course);
+                TempData["Message"] = $"Course: {course.Title} updated successfully";
                 return RedirectToAction("CourseView");
             }
         }
@@ -102,12 +107,12 @@ namespace Elearning.Controllers
             {
                 Course newCourse = new Course();
                 newCourse.DeleteCourse(id);
-                ViewBag.Message = $"Course deleted from the database";
+                TempData["Message"] = $"Course deleted from the database";
                 return RedirectToAction("CourseView");
             }
             catch (Exception exp)
             {
-                ViewBag.Message = $"Error: {exp.Message}";
+                TempData["Message"] = $"Error: {exp.Message}";
                 return RedirectToAction("CourseView");
             }
 

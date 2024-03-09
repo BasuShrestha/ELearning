@@ -7,12 +7,12 @@ namespace Elearning.Models
 {
     public class Instructor
     {
-        public int Instructor_Id { get; set; }
-        public string Name { get; set; }
-        public int Course_Id { get; set; }
-        public int Is_Deleted { get; set; }
+        public int? Instructor_Id { get; set; }
+        public string? Name { get; set; }
+        public int? Course_Id { get; set; }
+        public int? Is_Deleted { get; set; }
 
-        public string Course_Name { get; set; }
+        public string? Course_Name { get; set; }
 
         public List<Instructor> Instructors  = new List<Instructor>();
 
@@ -24,7 +24,7 @@ namespace Elearning.Models
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
-                    string query = "SELECT i.INSTRUCTOR_ID, i.NAME, i.COURSE_ID, c.TITLE FROM INSTRUCTOR i JOIN COURSE c ON i.COURSE_ID = c.COURSE_ID";
+                    string query = "SELECT i.INSTRUCTOR_ID, i.NAME, i.COURSE_ID, i.IS_DELETED, c.TITLE FROM INSTRUCTOR i JOIN COURSE c ON i.COURSE_ID = c.COURSE_ID";
                     OracleCommand cmd = new OracleCommand(query, conn);
                     cmd.BindByName = true;
                     cmd.CommandType = System.Data.CommandType.Text;
@@ -37,7 +37,8 @@ namespace Elearning.Models
                         instructor.Instructor_Id = reader.GetInt32(0);
                         instructor.Name = reader.GetString(1);
                         instructor.Course_Id = reader.GetInt32(2);
-                        instructor.Course_Name = reader.GetString(3);
+                        instructor.Is_Deleted = reader.GetInt32(3);
+                        instructor.Course_Name = reader.GetString(4);
                         Instructors.Add(instructor);
                     }
                     reader.Dispose();
@@ -119,6 +120,10 @@ namespace Elearning.Models
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
+
+                    Console.WriteLine(instructor.Name);
+                    Console.WriteLine(instructor.Course_Id);
+                    Console.WriteLine(instructor.Instructor_Id);
                     string query = $"UPDATE INSTRUCTOR SET NAME = '{instructor.Name}', " +
                                    $"COURSE_ID = '{instructor.Course_Id}' " +
                                    $"WHERE INSTRUCTOR_ID = {instructor.Instructor_Id}";

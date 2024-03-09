@@ -6,10 +6,10 @@ namespace Elearning.Models
     public class Course
     {
         public int Course_Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
         public int Is_Deleted { get; set; }
-        public IEnumerable<Instructor> Instructors { get; set; }
+        public IEnumerable<Instructor>? Instructors { get; set; }
 
         public List<Course> Courses = new List<Course>();
 
@@ -66,6 +66,7 @@ namespace Elearning.Models
                         course.Course_Id = reader.GetInt32(0);
                         course.Title = reader.GetString(1);
                         course.Description = reader.GetString(2);
+                        course.Is_Deleted = reader.GetInt32(3);
                         Courses.Add(course);
                     }
                     reader.Dispose();

@@ -11,6 +11,11 @@ a {
   color: #0077cc;
 }
 
+.active {
+    background-color: #007bff;
+    text-decoration-color: white;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Elearning.styles.css" asp-append-version="true" />
 </head>
+@{
+    var controller = Context.Request.RouteValues["controller"]?.ToString();
+    var action = Context.Request.RouteValues["action"]?.ToString();
+}
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -19,24 +24,24 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="nav-item @(controller == "Home" && action == "Index" ? "active" : "")">
+                            <a class="nav-link @(controller == "Home" && action == "Index" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="MyLearnings">My Learnings</a>
+                        <li class="nav-item @(controller == "Course" && action == "CourseView" ? "active" : "")">
+                            <a class="nav-link @(controller == "Course" && action == "CourseView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Course" asp-action="CourseView">Courses</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="CourseView">Course Details</a>
+                        <li class="nav-item @(controller == "Instructor" && action == "InstructorView" ? "active" : "")">
+                            <a class="nav-link @(controller == "Instructor" && action == "InstructorView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Instructor" asp-action="InstructorView">Instructors</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Instructor" asp-action="InstructorView">Instructor Details</a>
+                        <li class="nav-item @(controller == "Student" && action == "StudentView" ? "active" : "")">
+                            <a class="nav-link @(controller == "Student" && action == "StudentView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Student" asp-action="StudentView">Students</a>
                         </li>
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
+                        </li> *@
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Instructor">Instructor</a>
-                        </li>
+                        </li> *@
                     </ul>
                 </div>
             </div>

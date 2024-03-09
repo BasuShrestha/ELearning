@@ -6,7 +6,6 @@
 <h1>@ViewData["Title"]</h1>
 
 <script>
-    // Hide alert after 3 seconds
     setTimeout(function () {
         document.getElementById("alert").style.display = "none";
     }, 3000);
@@ -22,7 +21,12 @@
       </div>
   </div> *@
 <br />
-
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info" id="alert" role="alert">
+        @ViewBag.Message
+    </div>
+}
 <div class="container mt-4">
     <h2>Fill the Course Details Below</h2>
     <form asp-controller="Course" asp-action="AddCourseDetail" method="post">
@@ -131,7 +135,7 @@
                                       }
                                       else
                                       {
-                                          <h3>No Courses Found...</h3>
+                                        <template> No Courses Found...</template>
                                       }
                                   </tbody>
                               </table>

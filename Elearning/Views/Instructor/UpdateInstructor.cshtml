@@ -1,14 +1,14 @@
 ﻿@using Elearning.Models
 @model Instructor
 @{
-    Instructor course = new Instructor();
+    Instructor instructor = new Instructor();
     ViewData["text"] = ViewBag.Message;
     Instructor InstructorSQLData = ViewBag.SQLData;
 }
 
 <div class="flex-column">
     <div class="align-content-center">
-        <form method="post" asp-action="UpdateInstructorDetail" asp-controller="Instructor">
+        <form method="post" asp-action="UpdateInstructor" asp-controller="Instructor">
             <div class="card">
                 <div class="card-header">
                     <h4>Update Instructor</h4>
@@ -18,13 +18,19 @@
                         <label for="name">Name</label>
                         <input type="text" id="name" name="Name" class="form-control" style="height: 40px;" value="@InstructorSQLData?.Instructors?[0]?.Name" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
+                        <label asp-for="Course_Id" class="form-label">Course:</label>
+                        <select asp-for="Course_Id" asp-items="@ViewBag.CourseList" class="form-control">
+                            <option value="">Select a course</option>
+                        </select>
+                    </div>
+                    @* <div class="form-group">
                         <label for="courseId">Course_Id</label>
                         <input type="text" id="courseId" name="Course_Id" class="form-control" style="height: 40px;" value="@InstructorSQLData?.Instructors?[0]?.Course_Id" />
-                    </div>
+                    </div> *@
                     <br />
                 </div>
-                <input type="hidden" name="Id" value="@InstructorSQLData?.Instructors?[0]?.Instructor_Id" />
+                <input type="hidden" name="Instructor_Id" value="@InstructorSQLData?.Instructors?[0]?.Instructor_Id"/>
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Update Instructor</button>
