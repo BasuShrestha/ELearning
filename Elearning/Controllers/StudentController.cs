@@ -24,18 +24,30 @@ namespace Elearning.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult AddStudent()
-        {
-            return View();
-        }
-
         [HttpPost]
         public IActionResult AddStudent(Student student)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(student);
+            }
+            AddStudentDetail(student);
+            TempData["Message"] = "Student details inserted successfully";
+            return RedirectToAction("StudentView");
+        }
+
+        [HttpPost]
+        public IActionResult AddStudentDetail(Student student)
+        {
+
+            Console.WriteLine($"Student ID: {student.Student_Id}");
+            Console.WriteLine($"Student Name: {student.Student_Name}");
+            Console.WriteLine($"Contact: {student.Contact}");
+            Console.WriteLine($"DOB: {student.DOB}");
+            Console.WriteLine($"Email: {student.Email}");
+            Console.WriteLine($"Country: {student.Country}");
             if (string.IsNullOrEmpty(student.Student_Name)
                 || string.IsNullOrEmpty(student.Contact)
-                || string.IsNullOrEmpty(student.DOB)
                 || string.IsNullOrEmpty(student.Email)
                 || string.IsNullOrEmpty(student.Country))
             {
@@ -52,12 +64,15 @@ namespace Elearning.Controllers
 
         public IActionResult UpdateStudent(int studentId) 
         {
+            Console.WriteLine($"In here: {studentId}");
             Student student = new Student();
             student.GetStudentById(studentId);
+            Console.WriteLine(student.Students[0].Student_Name);
             ViewBag.studentData = student;
-            return View("UpdateStudent",student);
+            return View("UpdateStudent", student);
         }
 
+        [HttpPost]
         public IActionResult UpdateStudent(Student student)
         {
             if (!ModelState.IsValid)
@@ -68,7 +83,31 @@ namespace Elearning.Controllers
             else 
             {
                 student.UpdateStudent(student);
-                return View();
+                return RedirectToAction("StudentView");
+            }
+        }
+
+        public IActionResult DeleteStudent()
+        { 
+            return View(new Student());
+        }
+
+        [HttpPost]
+        public IActionResult DeleteStudent(int id)
+        {
+            try
+            {
+                Student student = new Student();
+                student.DeleteById(id);
+                ViewBag.Message = $"Student deleted from the database";
+                Console.WriteLine(id);
+                TempData["Message"] = "Student deleted!";
+                return RedirectToAction("StudentView");
+            }
+            catch (Exception exp)
+            {
+                TempData["Message"] = $"Error: {exp.Message}";
+                return RedirectToAction("StudentView");
             }
         }
     }
