@@ -59,7 +59,6 @@ namespace Elearning.Controllers
 
             AddInstructorDetail(instructor);
 
-            //ViewBag.Message = "Instructor details inserted successfully";
             TempData["Message"] = "Instructor details inserted successfully";
             return RedirectToAction("InstructorView");
         }

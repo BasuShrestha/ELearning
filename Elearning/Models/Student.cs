@@ -168,7 +168,7 @@ namespace Elearning.Models
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
                     string queryString = $"UPDATE STUDENT SET STUDENT_NAME = :StudentName, CONTACT = :Contact, DOB = TO_DATE(:DOB, 'YYYY-MM-DD'), EMAIL = :Email, COUNTRY = :Country" +
-                        $"                WHERE STUDENT_ID = :StudentId";
+                                         $"WHERE STUDENT_ID = :StudentId";
 
                     OracleCommand cmd = new OracleCommand(queryString, conn);
                     cmd.Parameters.Add(new OracleParameter("StudentName", student.Student_Name));

@@ -1,0 +1,81 @@
+﻿@using Elearning.Models
+@model Lesson
+@{
+    ViewData["text"] = ViewBag.Message;
+    Lesson lesson = ViewBag.SQLData;
+
+    // List<Course> courses = ViewBag.CourseList;
+    // Course course = new Course();
+
+    // foreach (Course c in courses)
+    // {
+    //     if (c.Course_Id == lesson.Course_Id)
+    //     {
+    //         course = c;
+    //     }
+    // }
+
+    string content_name = lesson.Content_Name.Split('.')[0];
+    string lesson_type = lesson.Content_Name.Split('.')[1];
+}
+
+<div class="flex-column">
+    <div class="align-content-center">
+        <form method="post" asp-action="UpdateLesson" asp-controller="Lesson">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Update Lesson</h4>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Title" class="control-label">Lesson Title</label>
+                    <input asp-for="Title" class="form-control" value="@lesson.Title" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Course_Id" class="control-label">Course</label>
+                        <select asp-for="Course_Id" asp-items="@ViewBag.CourseList" class="form-control">
+                         @* <option value="">Please select a course</option> *@
+                        @foreach (var course in ViewBag.CourseList as SelectList)
+                        {
+                            @(lesson.Course_Id.ToString() == course.Value ? "selected" : "")
+                            <option value="@course.Value"></option>
+                        }
+                        </select>
+                    </div>
+                    <br />
+                    <div class="form-group col-md-6">
+                        <label asp-for="Content_Name" class="control-label">Content Name</label>
+                        <input asp-for="Content_Name" class="form-control" value="@content_name" />
+                        <span asp-validation-for="Content_Name" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group col-md-6">
+                        <label asp-for="Content_Type" class="control-label">Lesson Type</label>
+                        <select asp-for="Content_Type" asp-items="@ViewBag.LessonTypes" class="form-control">
+                            <option value="">@lesson_type</option>
+                        </select>
+                    </div>
+                    <br />
+                </div>
+                <input type="hidden" name="Lesson_Id" value="@lesson.Lesson_Id" />
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Update Lesson</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<p id="alert">
+    @ViewBag.Message
+</p>
+
+<script>
+    // Hide alert after 3 seconds
+    setTimeout(function () {
+        document.getElementById("alert").style.display = "none";
+    }, 3000);
+</script>

@@ -1,0 +1,114 @@
+﻿@model Elearning.Models.Lesson;
+
+@{
+    ViewData["Title"] = "LessonView";
+    Lesson lesson = ViewBag.SQLData;
+}
+
+<h1>LessonView</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<script>
+    // Hide alert after 3 seconds
+    setTimeout(function () {
+        document.getElementById("alert").style.display = "none";
+    }, 1500);
+</script>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info" id="alert" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
+<div class="container mt-4">
+    <h2>Fill the Lesson Details Below</h2>
+    <form asp-action="AddLesson" asp-asp-controller="Lesson" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-6">
+                <label asp-for="Title" class="control-label">Lesson Title</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Course_Id" class="control-label">Course</label>
+                    <select asp-for="Course_Id" asp-items="@ViewBag.CourseList" class="form-control">
+                        <option value="">Please select a course</option>
+                    </select>
+                </div>
+            <br />
+                <div class="form-group col-md-6">
+                    <label asp-for="Content_Name" class="control-label">Content Name</label>
+                    <input asp-for="Content_Name" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group col-md-6">
+                    <label asp-for="Content_Type" class="control-label">Lesson Type</label>
+                    <select asp-for="Content_Type" asp-items="@ViewBag.LessonTypes" class="form-control">
+                        <option value="">Please select a lesson type</option>
+                    </select>
+                </div>
+
+            </div>
+            
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Insert" class="btn btn-primary" />
+                <input type="reset" value="Cancel" class="btn btn-secondary" />
+            </div>
+        
+        <br />
+    </form>
+</div>
+
+@if (lesson.Lessons.Count > 0)
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Lesson ID</th>
+                <th>Lesson Title</th>
+                <th>Course Title</th>
+                <th>Lesson Content</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (Lesson l in lesson.Lessons.Where(l => l.Is_Deleted == 0))
+            {
+                Console.WriteLine(l.Lesson_Id);
+                <tr>
+                    <td>@l.Lesson_Id</td>
+                    <td>@l.Title</td>
+                    <td>@l.Course_Title</td>
+                    <td>@l.Content_Name</td>
+                    <td>
+                        @* <a class="btn btn-primary" asp-action="UpdateLesson" asp-route-id="@l.Lesson_Id">Update</a> *@
+                        <form asp-action="UpdateLesson" asp-controller="Lesson" method="get">
+                            <input type="hidden" name="id" value="@l.Lesson_Id" />
+                            <input type="submit" value="Update" class="btn btn-primary" />
+                        </form>
+                        @{
+                            Console.WriteLine($"In here: {l.Lesson_Id}");
+                        }
+                        <form asp-action="DeleteLesson" asp-route-id="@l.Lesson_Id" method="post" onsubmit="return confirm('Are you sure you want to delete this course?');">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>No Details of students...</h3>
+}
