@@ -56,21 +56,27 @@ namespace Elearning.Controllers
 
         public IActionResult AddLesson(Lesson lesson)
         {
-            if (!ModelState.IsValid)
+            Course course = new Course();
+            course.GetCourses();
+            if (course.Courses != null)
             {
-                return View(lesson);
+                List<Course> availableCourses = new List<Course> { };
+                foreach (Course c in course.Courses)
+                {
+                    if (c.Is_Deleted == 0)
+                    {
+                        availableCourses.Add(c);
+                    }
+                }
+                ViewBag.CourseList = new SelectList(availableCourses, "Course_Id", "Title");
             }
 
-            if (string.IsNullOrEmpty(lesson.Title))
+            List<String> lessonTypes = new List<String>
             {
-                TempData["Message"] = "Empty values in the fields";
-                return View(lesson);
-            }
-
-            AddLessonDetail(lesson);
-
-            TempData["Message"] = "Lesson details inserted successfully";
-            return RedirectToAction("LessonView");
+                "PDF", "Video", "Link"
+            };
+            ViewBag.LessonTypes = new SelectList(lessonTypes, "LessonType");
+            return View("AddLessonDetail");
         }
         
         [HttpPost]

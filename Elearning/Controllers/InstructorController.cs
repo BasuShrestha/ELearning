@@ -43,24 +43,23 @@ namespace Elearning.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddInstructor(Instructor instructor)
+        public IActionResult AddInstructor()
         {
-            if (!ModelState.IsValid)
+            Course course = new Course();
+            course.GetCourses();
+            if (course.Courses != null)
             {
-                return View(instructor);
+                List<Course> availableCourses = new List<Course> { };
+                foreach (Course c in course.Courses)
+                {
+                    if (c.Is_Deleted == 0)
+                    {
+                        availableCourses.Add(c);
+                    }
+                }
+                ViewBag.CourseList = new SelectList(availableCourses, "Course_Id", "Title");
             }
-
-            if (string.IsNullOrEmpty(instructor.Name))
-            {
-                TempData["Message"] = "Empty values in the fields";
-                return View(instructor);
-            }
-
-            AddInstructorDetail(instructor);
-
-            TempData["Message"] = "Instructor details inserted successfully";
-            return RedirectToAction("InstructorView");
+            return View("AddInstructorDetail");
         }
 
         [HttpPost]

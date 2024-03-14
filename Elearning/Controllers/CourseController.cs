@@ -27,25 +27,29 @@ namespace Elearning.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddCourse(Course model) 
+        //public IActionResult AddCourse(Course course) 
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(course);
+        //    }
+
+        //    if (String.IsNullOrEmpty(course.Title))
+        //    {
+        //        TempData["Message"] = "Error: Don't submit an empty value. PLEASE";
+        //        return View(course);
+        //    }
+
+        //    AddCourseDetail(course);
+
+        //    TempData["Message"] = "Success: Value will be inserted into the database";
+
+        //    return RedirectToAction("CourseView");
+        //}
+
+        public IActionResult AddCourse()
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            if (String.IsNullOrEmpty(model.Title))
-            {
-                TempData["Message"] = "Error: Don't submit an empty value. PLEASE";
-                return View(model);
-            }
-
-            AddCourseDetail(model);
-
-            TempData["Message"] = "Success: Value will be inserted into the database";
-
-            return RedirectToAction("CourseView");
+            return View("AddCourseDetail");
         }
 
         [HttpPost]

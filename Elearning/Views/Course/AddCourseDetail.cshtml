@@ -1,13 +1,13 @@
-﻿@using Elearning.Models
+﻿@model Elearning.Models.Course;
 
 @{
     Course newCourse= new();
     ViewData["text"] = ViewBag.Message;
 }
 
-<div class="flex-column">
+@* <div class="flex-column">
     <div class="align-content-center">
-        <form method="post" asp-action="AddCourse" asp-controller="Course">
+        <form method="post" asp-action="AddCourseDetail" asp-controller="Course">
             <div class="card">
                 <div class="card-header">
                     <h4>Add Course</h4>
@@ -29,6 +29,29 @@
             </div>
         </form>
     </div>
+</div> *@
+<div class="container mt-4">
+    <h2>Fill the Course Details Below</h2>
+    <form asp-controller="Course" asp-action="AddCourseDetail" method="post">
+
+        <div class="form-group mb-3">
+            <label asp-for="Title" class="form-label">Title:</label>
+            <input asp-for="Title" class="form-control" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Description" class="form-label">Description:</label>
+            <input asp-for="Description" class="form-control" required>
+        </div>
+
+
+        <br />
+        <div class="form-group">
+            <input type="submit" value="Insert" class="btn btn-primary" />
+            <a class="btn btn-danger" asp-controller="Course" asp-action="CourseView">Cancel</a>
+        </div>
+        <br />
+    </form>
 </div>
 <br />
 <p id="alert">

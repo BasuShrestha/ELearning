@@ -2,7 +2,7 @@
 @{
     Instructor instrucotrSQLData = ViewBag.SQLData;
 }
-<h1>@ViewData["Title"]</h1>
+<h1>Instructors</h1>
 
 <script>
     // Hide alert after 3 seconds
@@ -27,8 +27,7 @@
         @ViewBag.Message
     </div>
 }
-<div class="container mt-4">
-    
+@* <div class="container mt-4">    
     <h2>Fill the Instructor Details Below</h2>
     <form asp-controller="Instructor" asp-action="AddInstructorDetail" method="post">
 
@@ -44,18 +43,14 @@
             </select>
 
         </div>
-@* 
-         <div class="form-group mb-3">
-             <label asp-for="Course_Id" class="form-label">Course_Id:</label>
-             <input asp-for="Course_Id" class="form-control" required>
-         </div> *@
-
-
         <div class="mb-3">
             <button type="submit" class="btn btn-primary">Save Instructor Details</button>
         </div>
     </form>
-</div>
+</div> *@
+
+<a class="btn btn-primary" asp-action="AddInstructor">Add Instructor</a>
+
 
 @*
 

@@ -1,0 +1,53 @@
+﻿@model Elearning.Models.Lesson
+
+@{
+    ViewData["Title"] = "AddLessonDetail";
+}
+
+<div class="container mt-4">
+    <h2>Fill the Lesson Details Below</h2>
+    <form asp-action="AddLessonDetail" asp-asp-controller="Lesson" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-6">
+            <label asp-for="Title" class="control-label">Lesson Title</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Course_Id" class="control-label">Course</label>
+                <select asp-for="Course_Id" asp-items="@ViewBag.CourseList" class="form-control">
+                    <option value="">Please select a course</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+                <label asp-for="Content_Name" class="control-label">Content Name</label>
+                <input asp-for="Content_Name" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+                <label asp-for="Content_Type" class="control-label">Lesson Type</label>
+                <select asp-for="Content_Type" asp-items="@ViewBag.LessonTypes" class="form-control">
+                    <option value="">Please select a lesson type</option>
+                </select>
+            </div>
+
+        </div>
+
+        <br />
+        <div class="form-group">
+            <input type="submit" value="Insert" class="btn btn-primary" />
+            <a class="btn btn-danger" asp-controller="Lesson" asp-action="LessonView">Cancel</a>
+        </div>
+        <br />
+        
+    </form>
+</div>
+
+@* <div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+

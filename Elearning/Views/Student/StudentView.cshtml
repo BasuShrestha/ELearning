@@ -7,7 +7,6 @@
 
 
 <script>
-    // Hide alert after 3 seconds
     setTimeout(function () {
         document.getElementById("alert").style.display = "none";
     }, 1500);
@@ -20,34 +19,33 @@
     </div>
 }
 
-<div class="container mt-4">
+@* <div class="container mt-4">
     <h2>Fill the Student Details Below</h2>
     <form asp-action="AddStudent" asp-asp-controller="Student" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Student_Name" class="control-label">Name</label>
-                <input asp-for="Student_Name" class="form-control" />
-                <span asp-validation-for="Student_Name" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-6">
-                <label asp-for="Contact" class="control-label">Contact</label>
-                <input asp-for="Contact" class="form-control" />
-                <span asp-validation-for="Contact" class="text-danger"></span>
-            </div>
+       
+        <div class="form-group col-md-6">
+            <label asp-for="Student_Name" class="control-label">Name</label>
+            <input asp-for="Student_Name" class="form-control" />
+            <span asp-validation-for="Student_Name" class="text-danger"></span>
         </div>
         <br />
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Email" class="control-label">Email</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-6">
-                <label asp-for="DOB" class="control-label">Date of Birth</label>
-                <input asp-for="DOB" type="date" nameclass="form-control" />
-                <span asp-validation-for="DOB" class="text-danger"></span>
-            </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Contact" class="control-label">Contact</label>
+            <input asp-for="Contact" class="form-control" />
+            <span asp-validation-for="Contact" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group col-md-6">
+            <label asp-for="Email" class="control-label">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group col-md-6">
+            <label asp-for="DOB" class="control-label">Date of Birth</label>
+            <input asp-for="DOB" type="date" nameclass="form-control" />
+            <span asp-validation-for="DOB" class="text-danger"></span>
         </div>
         <br />
         <div class="form-group col-md-6">
@@ -61,10 +59,13 @@
             <input type="reset" value="Cancel" class="btn btn-secondary" />
         </div>
     </form>
-</div>
+</div> *@
+
+<a class="btn btn-primary" asp-controller="Student" asp-action="AddStudent">Add Student</a><br />
 
 @if (studentSQLdata.Students.Count > 0)
 {
+    <br />
 <table class="table table-bordered table-hover">
     <thead>
         <tr>

@@ -66,12 +66,41 @@ namespace Elearning.Controllers
         // GET: EnrolmentController/Create
         public IActionResult AddEnrolment()
         {
-            return View();
+            Student student = new Student();
+            student.GetStudents();
+            if (student.Students != null)
+            {
+                List<Student> currentStudents = new List<Student>();
+                foreach (Student s in student.Students)
+                {
+                    if (s.Is_Deleted == 0)
+                    {
+                        currentStudents.Add(s);
+                    }
+                }
+                ViewBag.Students = new SelectList(currentStudents, "Student_Id", "Student_Name");
+            }
+
+            Course course = new Course();
+            course.GetCourses();
+            if (course.Courses != null)
+            {
+                List<Course> availableCourses = new List<Course> { };
+                foreach (Course c in course.Courses)
+                {
+                    if (c.Is_Deleted == 0)
+                    {
+                        availableCourses.Add(c);
+                    }
+                }
+                ViewBag.Courses = new SelectList(availableCourses, "Course_Id", "Title");
+            }
+            return View("AddEnrolmentDetail");
         }
 
         // POST: EnrolmentController/Create
         [HttpPost]
-        public IActionResult AddEnrolment(Enrolment enrolment)
+        public IActionResult AddEnrolmentDetail(Enrolment enrolment)
         {
             try
             {

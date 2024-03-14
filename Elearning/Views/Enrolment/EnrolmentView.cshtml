@@ -5,11 +5,11 @@
     Enrolment enrolment = ViewBag.SQLData;
 }
 
-<h1>EnrolmentView</h1>
+<h1>Enrolments</h1>
 
-<p>
+@* <p>
     <a asp-action="Create">Create New</a>
-</p>
+</p> *@
 
 <script>
     // Hide alert after 3 seconds
@@ -35,7 +35,7 @@ else if (TempData["Message"] != null)
 }
 
 
-<div class="container mt-4">
+@* <div class="container mt-4">
     <h2>Fill the Enrolment Details Below</h2>
     <form asp-action="AddEnrolment" asp-asp-controller="Enrolment" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -66,10 +66,14 @@ else if (TempData["Message"] != null)
 
         <br />
     </form>
-</div>
+</div> *@
+
+
+<a class="btn btn-primary" asp-action="AddEnrolment">Add Enrolment</a><br />
 
 @if (enrolment.Enrolments.Count > 0)
 {
+    <br />
     <table class="table table-bordered table-hover">
         <thead>
             <tr>

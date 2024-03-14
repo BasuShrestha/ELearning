@@ -24,16 +24,9 @@ namespace Elearning.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddStudent(Student student)
+        public IActionResult AddStudent()
         {
-            if (!ModelState.IsValid)
-            {
-                return View(student);
-            }
-            AddStudentDetail(student);
-            TempData["Message"] = "Student details inserted successfully";
-            return RedirectToAction("StudentView");
+            return View("AddStudentDetail");
         }
 
         [HttpPost]
