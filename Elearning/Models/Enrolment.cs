@@ -17,7 +17,7 @@ namespace Elearning.Models
 
         public string connString = ProjectConstants.connString;
 
-        public void AddEnrollment(Enrolment enrolment)
+        public void AddEnrolment(Enrolment enrolment)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace Elearning.Models
             }
         }
 
-        public void GetEnrollments()
+        public void GetEnrolments()
         {
             try
             {

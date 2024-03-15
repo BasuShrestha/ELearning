@@ -26,27 +26,6 @@ namespace Elearning.Controllers
             }
             return View();
         }
-
-        //public IActionResult AddCourse(Course course) 
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(course);
-        //    }
-
-        //    if (String.IsNullOrEmpty(course.Title))
-        //    {
-        //        TempData["Message"] = "Error: Don't submit an empty value. PLEASE";
-        //        return View(course);
-        //    }
-
-        //    AddCourseDetail(course);
-
-        //    TempData["Message"] = "Success: Value will be inserted into the database";
-
-        //    return RedirectToAction("CourseView");
-        //}
-
         public IActionResult AddCourse()
         {
             return View("AddCourseDetail");
@@ -99,18 +78,22 @@ namespace Elearning.Controllers
             }
         }
         
-        public IActionResult DeleteCourse()
-        { 
-            return View(new Course());
+        public IActionResult DeleteCourse(int id)
+        {
+            Course course = new();
+            course.GetCourseById(id);
+
+            ViewBag.sqldata = course.Courses[0];
+            return View("DeleteCourse", course);
         }
 
         [HttpPost]
-        public IActionResult DeleteCourse(int id) 
+        public IActionResult DeleteCourseById(int courseId) 
         {
             try
             {
-                Course newCourse = new Course();
-                newCourse.DeleteCourse(id);
+                Course course = new();
+                course.DeleteCourse(courseId);
                 TempData["Message"] = $"Course deleted from the database";
                 return RedirectToAction("CourseView");
             }

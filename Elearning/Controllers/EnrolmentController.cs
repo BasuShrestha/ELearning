@@ -18,7 +18,7 @@ namespace Elearning.Controllers
         public IActionResult EnrolmentView()
         {
             Enrolment enrollment = new Enrolment();
-            enrollment.GetEnrollments();
+            enrollment.GetEnrolments();
             ViewBag.SQLData = enrollment;
 
             Student student = new Student();
@@ -113,7 +113,7 @@ namespace Elearning.Controllers
                 }
                 else
                 {
-                    enrolment.AddEnrollment(enrolment);
+                    enrolment.AddEnrolment(enrolment);
                     TempData["Message"] = "Enrolment details inserted successfully";
                     return RedirectToAction("EnrolmentView");
                 }

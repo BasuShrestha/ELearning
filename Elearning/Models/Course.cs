@@ -45,6 +45,7 @@ namespace Elearning.Models
             catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
+                throw;
             }
         }
 
@@ -76,6 +77,7 @@ namespace Elearning.Models
             catch (Exception exception)
             { 
                 Console.WriteLine (exception.ToString());
+                throw;
             }
         }
 
@@ -95,6 +97,7 @@ namespace Elearning.Models
             catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
+                throw;
             }
         }
 
@@ -116,16 +119,18 @@ namespace Elearning.Models
             catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
+                throw;
             }
         }
 
-        public void DeleteCourse(int id) 
+        public void DeleteCourse(int courseId) 
         {
             try 
             {
+                Console.WriteLine(courseId);
                 using (OracleConnection conn = new OracleConnection(connString)) 
                 {
-                    string query = $"UPDATE COURSE SET IS_DELETED = 1 WHERE COURSE_ID = {id}";
+                    string query = $"UPDATE COURSE SET IS_DELETED = 1 WHERE COURSE_ID = {courseId}";
                     OracleCommand cmd = new OracleCommand(query, conn);
                     conn.Open();
                     cmd.ExecuteReader();
@@ -135,6 +140,7 @@ namespace Elearning.Models
             catch (Exception exception) 
             { 
                 Console.WriteLine(exception.ToString());
+                throw;
             }
         } 
     }
