@@ -3,7 +3,7 @@
 @{
     Instructor instructor = new Instructor();
     ViewData["text"] = ViewBag.Message;
-    Instructor InstructorSQLData = ViewBag.SQLData;
+    instructor = ViewBag.SQLData;
 }
 
 <div class="flex-column">
@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="Name" class="form-control" style="height: 40px;" value="@InstructorSQLData?.Instructors?[0]?.Name" />
+                        <input type="text" id="name" name="Name" class="form-control" style="height: 40px;" value="@instructor.Name" />
                     </div>
                     <div class="form-group mb-3">
                         <label asp-for="Course_Id" class="form-label">Course:</label>
@@ -26,11 +26,11 @@
                     </div>
                     @* <div class="form-group">
                         <label for="courseId">Course_Id</label>
-                        <input type="text" id="courseId" name="Course_Id" class="form-control" style="height: 40px;" value="@InstructorSQLData?.Instructors?[0]?.Course_Id" />
+                        <input type="text" id="courseId" name="Course_Id" class="form-control" style="height: 40px;" value="@instructor.Course_Id" />
                     </div> *@
                     <br />
                 </div>
-                <input type="hidden" name="Instructor_Id" value="@InstructorSQLData?.Instructors?[0]?.Instructor_Id"/>
+                <input type="hidden" name="Instructor_Id" value="@instructor.Instructor_Id"/>
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Update Instructor</button>

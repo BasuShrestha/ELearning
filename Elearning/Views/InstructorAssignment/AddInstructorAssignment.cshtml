@@ -1,0 +1,45 @@
+﻿@model Elearning.Models.InstructorAssignment
+
+@{
+    ViewData["Title"] = "AddAssignmentDetail";
+}
+
+<div class="row">
+    <div class="container mt-4">
+        <h2>Fill the Enrolment Details Below</h2>
+        <form asp-action="AddAssignmentDetails" asp-asp-controller="InstructorAssignmentController" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-6">
+                <label asp-for="Course_Id" class="control-label">Course</label>
+                <select asp-for="Course_Id" asp-items="@ViewBag.Courses" class="form-control">
+                    <option value="">Select a Course</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+                <label asp-for="Instructor_Id" class="control-label">Instructor</label>
+                <select asp-for="Instructor_Id" asp-items="@ViewBag.Instructors" class="form-control">
+                    <option value="">Select a Instructor</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+                <label asp-for="AssignedDate" class="control-label">Assignment Date</label>
+                <input asp-for="AssignedDate" type="date" nameclass="form-control" />
+                <span asp-validation-for="AssignedDate" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Insert" class="btn btn-primary" />
+                <a class="btn btn-danger" asp-controller="InstructorAssignment" asp-action="InstructorAssignmentView">Cancel</a>
+            </div>
+
+            <br />
+        </form>
+    </div>
+</div>
+@*
+<div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+

@@ -1,0 +1,44 @@
+﻿@model Elearning.Models.Lesson
+
+@{
+    ViewData["Title"] = "DeleteLesson";
+    Lesson lesson = new Lesson();
+    lesson = ViewBag.SQLData;
+}
+
+<h3>
+    Are you sure you want to delete the lesson @{
+        @lesson.Title
+    } from @{
+        @lesson.Course_Title
+    }?
+</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Lesson
+        </dt>
+        <dd class="col-sm-10">
+            @lesson.Title
+        </dd>
+        <dt class="col-sm-2">
+            Course
+        </dt>
+        <dd class="col-sm-10">
+            @lesson.Course_Title
+        </dd>
+        <dt class="col-sm-2">
+            Lesson Content
+        </dt>
+        <dd class="col-sm-10">
+            @lesson.Content_Name
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteLessonDetail" asp-controller="Lesson" method="post">
+        <input type="hidden" name="id" value="@lesson.Lesson_Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a class="btn btn-primary" asp-action="LessonView" asp-controller="Lesson">Cancel</a>
+    </form>
+</div>

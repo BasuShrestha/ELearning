@@ -51,47 +51,37 @@ namespace Elearning.Models
             }
         }
 
-        //public void GetInstructorCourses()
-        //{ 
-        //    try 
-        //    {
-        //        using (OracleConnection conn = new OracleConnection(connString))
-        //        {
-        //            string query = $"SELECT";
-        //        }
-        //    } 
-        //    catch (Exception exception) 
-        //    { 
-        //    } 
-        //}
-
-        public void GetInstructorById(int instructorId)
+        public Instructor GetInstructorById(int instructorId)
         {
             try 
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
-                    string query = $"SELECT * FROM INSTRUCTOR WHERE INSTRUCTOR_ID = {instructorId}";
+                    string query = $"SELECT i.INSTRUCTOR_ID, i.NAME, i.COURSE_ID, i.IS_DELETED, c.TITLE FROM INSTRUCTOR i JOIN COURSE c ON i.COURSE_ID = c.COURSE_ID " +
+                                   $"WHERE INSTRUCTOR_ID = {instructorId}";
                     OracleCommand cmd = new OracleCommand(query, conn);
                     cmd.BindByName = true;
                     cmd.CommandType = System.Data.CommandType.Text;
                     conn.Open();
                     OracleDataReader reader = cmd.ExecuteReader();
+                    Instructor instructor = new Instructor();
                     while (reader.Read())
                     {
-                        Instructor instructor = new Instructor();
                         instructor.Instructor_Id = reader.GetInt32(0);
                         instructor.Name = reader.GetString(1);
                         instructor.Course_Id = reader.GetInt32(2);
-                        Instructors.Add(instructor);
+                        instructor.Is_Deleted = reader.GetInt32(3);
+                        instructor.Course_Name = reader.GetString(4);
                     }
                     reader.Dispose();
                     conn.Close();
+                    return instructor;
                 }
             }
             catch (Exception exception) 
             { 
                 Console.WriteLine(exception.ToString());
+                throw;
             }
         }
 

@@ -153,13 +153,17 @@ namespace Elearning.Controllers
             }
         }
 
-        public IActionResult DeleteLesson()
+        [HttpGet]
+        public IActionResult DeleteLesson(int id)
         {
-            return View(new Lesson());
+            Lesson lesson = new();
+            lesson = lesson.GetLessonById(id);
+            ViewBag.SQLData = lesson;
+            return View("DeleteLesson", lesson);
         }
 
         [HttpPost]
-        public IActionResult DeleteLesson(int id)
+        public IActionResult DeleteLessonDetail(int id)
         {
             try
             {

@@ -151,15 +151,17 @@ namespace Elearning.Controllers
             }
         }
 
-        // GET: EnrolmentController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult DeleteEnrolment(int studentId, int courseId)
         {
-            return View();
+            Enrolment enrolment = new Enrolment();
+            enrolment = enrolment.GetEnrolmentById(studentId, courseId);
+            ViewBag.SQLData = enrolment;
+            return View("DeleteEnrolment", enrolment);
         }
 
-        // POST: EnrolmentController/Delete/5
         [HttpPost]
-        public ActionResult DeleteEnrolment(int studentId, int courseId)
+        public ActionResult DeleteStudentEnrolment(int studentId, int courseId)
         {
             try
             {

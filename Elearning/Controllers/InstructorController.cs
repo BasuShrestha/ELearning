@@ -2,6 +2,7 @@
 using Elearning.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Protocol;
 
 namespace Elearning.Controllers
 {
@@ -41,6 +42,14 @@ namespace Elearning.Controllers
             }
 
             return View();
+        }
+
+        public IActionResult AssignInstructor()
+        {
+            InstructorAssignment instructorAssignment = new InstructorAssignment();
+            instructorAssignment.GetInstructorAssignments();
+            ViewBag.SQLData = instructorAssignment;
+            return View("../InstructorAssignment/InstructorAssignmentView");
         }
 
         public IActionResult AddInstructor()
@@ -85,9 +94,9 @@ namespace Elearning.Controllers
         public IActionResult UpdateInstructor(int id)
         {
             Instructor instructor = new();
-            instructor.GetInstructorById(id);
-
+            instructor = instructor.GetInstructorById(id);
             ViewBag.sqldata = instructor;
+
             Course course = new Course();
             course.GetCourses();
             if (course.Courses != null)
@@ -126,20 +135,22 @@ namespace Elearning.Controllers
             }
         }
 
-        public IActionResult DeleteInstructor()
-        { 
-            return View(new Instructor());
+        public IActionResult DeleteInstructor(int id)
+        {
+            Instructor instructor = new();
+            instructor = instructor.GetInstructorById(id);
+            ViewBag.sqldata = instructor;
+            return View("DeleteInstructor", instructor);
         }
 
         [HttpPost]
-        public IActionResult DeleteInstructor(int id)
+        public IActionResult DeleteInstructorDetail(int instructorId)
         {
             try
             {
                 Instructor newInstructor = new Instructor();
-                newInstructor.DeleteInstructor(id);
+                newInstructor.DeleteInstructor(instructorId);
                 ViewBag.Message = $"Instructor deleted from the database";
-                Console.WriteLine(id);
                 TempData["Message"] = "Instructor deleted!";
                 return RedirectToAction("InstructorView");
             }

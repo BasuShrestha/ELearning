@@ -1,0 +1,85 @@
+﻿@model Elearning.Models.InstructorAssignment
+
+@{
+    InstructorAssignment assignmentSQLData = ViewBag.SQLData;
+}
+
+<h1>Instructor Assignment View</h1>
+
+<script>
+    // Hide alert after 3 seconds
+    setTimeout(function () {
+        document.getElementById("error-alert").style.display = "none";
+    }, 1500);
+    setTimeout(function () {
+        document.getElementById("success-alert").style.display = "none";
+    }, 1500);
+</script>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" id="error-alert" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+else if (TempData["Message"] != null)
+{
+    <div class="alert alert-info" id="success-alert" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<a class="btn btn-primary" asp-action="AssignInstructor" asp-controller="InstructorAssignment">Add Assignment</a>
+
+
+@if (assignmentSQLData.Assignments.Count > 0)
+{
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Course Id</th>
+                <th>Instructor Id</th>
+                <th>Course Title</th>
+                <th>Instructor Name</th>
+                <th>Assigned Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @* @foreach (Enrollment l in assignmentSQLData.Assignments.Where(l => l.Is_Deleted == 0)) *@
+            @foreach (InstructorAssignment assignment in assignmentSQLData.Assignments.Where(en => en.Is_Deleted == 0))
+            {
+                <tr>
+                    <td>@assignment.Course_Id</td>
+                    <td>@assignment.Instructor_Id</td>
+                    <td>@assignment.Course_Title</td>
+                    <td>@assignment.Instructor_Name</td>
+                    <td>@assignment.AssignedDate</td>
+                    <td>
+                        @* <a class="btn btn-primary" asp-action="UpdateInstructorAssignment" asp-route-id="@assignment.Enrollment_Id">Update</a> *@
+                        @* <form asp-action="UpdateInstructorAssignment" asp-controller="InstructorAssignment" method="get">
+                <input type="hidden" name="Student_Id" value="@assignment.Student_Id" />
+                <input type="hidden" name="Course_Id" value="@assignment.Course_Id" />
+                <input type="submit" value="Update" class="btn btn-primary" />
+                </form> *@
+                        <form asp-action="DeleteAssignment" asp-controller="InstructorAssignment" method="get">
+                            <input type="hidden" name="courseId" value="@assignment.Course_Id" />
+                            <input type="hidden" name="instructorId" value="@assignment.Instructor_Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>No Instructor Assignments yet...</h3>
+}

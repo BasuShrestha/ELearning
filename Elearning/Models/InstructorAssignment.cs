@@ -1,35 +1,37 @@
 ﻿using Elearning.Utilities;
-using NuGet.Protocol;
 using Oracle.ManagedDataAccess.Client;
 
 namespace Elearning.Models
 {
-    public class Enrolment
+    public class InstructorAssignment
     {
-        public int Student_Id { get; set; }
         public int Course_Id { get; set; }
-        public DateTime EnrolledOnDate { get; set; }
-        public string Student_Name { get; set; }
+
         public string Course_Title { get; set; }
+
+        public int Instructor_Id { get; set; }
+        public string Instructor_Name { get; set; }
         public int Is_Deleted { get; set; }
 
-        public ICollection<Enrolment> Enrolments = new List<Enrolment>();
+        public DateTime AssignedDate { get; set; }
+
+        public List<InstructorAssignment> Assignments = new List<InstructorAssignment>();
 
         public string connString = ProjectConstants.connString;
 
-        public void AddEnrolment(Enrolment enrolment)
+        public void AddInstructorAssignment(InstructorAssignment assignment)
         {
             try
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
-                    string queryString = "INSERT INTO ENROLMENT (STUDENT_ID, COURSE_ID, ENROLLED_ON_DATE) " +
-                                         "VALUES(:STUDENT_ID, :COURSE_ID, TO_DATE(:ENROLLED_ON_DATE, 'YYYY-MM-DD'))";
+                    string queryString = "INSERT INTO INSTRUCTOR_ASSIGNMENT (COURSE_ID, INSTRUCTOR_ID, ASSIGNED_DATE) " +
+                                         "VALUES(:COURSE_ID, :INSTRUCTOR_ID, TO_DATE(:ASSIGNED_DATE, 'YYYY-MM-DD'))";
 
                     OracleCommand cmd = new OracleCommand(queryString, conn);
-                    cmd.Parameters.Add(new OracleParameter("STUDENT_ID", enrolment.Student_Id));
-                    cmd.Parameters.Add(new OracleParameter("COURSE_ID", enrolment.Course_Id));
-                    cmd.Parameters.Add(new OracleParameter("ENROLLED_ON_DATE", enrolment.EnrolledOnDate.ToString("yyyy-MM-dd")));
+                    cmd.Parameters.Add(new OracleParameter("COURSE_ID", assignment.Course_Id));
+                    cmd.Parameters.Add(new OracleParameter("INSTRUCTOR_ID", assignment.Instructor_Id));
+                    cmd.Parameters.Add(new OracleParameter("ASSIGNED_DATE", assignment.AssignedDate.ToString("yyyy-MM-dd")));
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -43,15 +45,14 @@ namespace Elearning.Models
             }
         }
 
-        public void GetEnrolments()
+        public void GetInstructorAssignments()
         {
             try
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
-                    string query = "SELECT e.STUDENT_ID, e.COURSE_ID, e.ENROLLED_ON_DATE, s.STUDENT_NAME, c.TITLE, e.IS_DELETED " +
-                                   "FROM ENROLMENT e JOIN STUDENT s ON e.STUDENT_ID = s.STUDENT_ID " +
-                                   "JOIN COURSE c ON e.COURSE_ID = c.COURSE_ID";
+                    string query = "SELECT c.COURSE_ID, c.TITLE, i.INSTRUCTOR_ID, i.NAME, ia.ASSIGNED_DATE FROM INSTRUCTOR_ASSIGNMENT ia " +
+                                   "JOIN COURSE c ON ia.COURSE_ID = c.COURSE_ID JOIN INSTRUCTOR i ON ia.INSTRUCTOR_ID = i.INSTRUCTOR_ID";
                     OracleCommand cmd = new OracleCommand(query, conn);
                     cmd.BindByName = true;
                     cmd.CommandType = System.Data.CommandType.Text;
@@ -60,16 +61,16 @@ namespace Elearning.Models
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Enrolment enrollment = new Enrolment
+                        InstructorAssignment assignment = new InstructorAssignment
                         {
-                            Student_Id = reader.GetInt32(0),
-                            Course_Id = reader.GetInt32(1),
-                            EnrolledOnDate = reader.GetDateTime(2),
-                            Student_Name = reader.GetString(3),
-                            Course_Title = reader.GetString(4),
-                            Is_Deleted = reader.GetInt32(5)
+                            
+                            Course_Id = reader.GetInt32(0),
+                            Course_Title = reader.GetString(1),
+                            Instructor_Id = reader.GetInt32(2),
+                            Instructor_Name = reader.GetString(3),
+                            AssignedDate = reader.GetDateTime(4)
                         };
-                        Enrolments.Add(enrollment);
+                        Assignments.Add(assignment);
                     }
                     reader.Dispose();
                     conn.Close();
@@ -82,34 +83,33 @@ namespace Elearning.Models
             }
         }
 
-        public Enrolment GetEnrolmentById(int studentId, int courseId)
+        public InstructorAssignment GetInstructorAssignmentById(int courseId, int instructorId)
         {
             try
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
-                    string query = $"SELECT e.STUDENT_ID, e.COURSE_ID, e.ENROLLED_ON_DATE, s.STUDENT_NAME, c.TITLE, e.IS_DELETED " +
-                                   $"FROM ENROLMENT e JOIN STUDENT s ON e.STUDENT_ID = s.STUDENT_ID " +
-                                   $"JOIN COURSE c ON e.COURSE_ID = c.COURSE_ID WHERE e.STUDENT_ID = {studentId} AND e.COURSE_ID = {courseId}";
+                    string query = $"SELECT c.COURSE_ID, c.TITLE, i.INSTRUCTOR_ID, i.NAME, ia.ASSIGNED_DATE FROM INSTRUCTOR_ASSIGNMENT ia " +
+                                   $"JOIN COURSE c ON ia.COURSE_ID = c.COURSE_ID JOIN INSTRUCTOR i ON ia.INSTRUCTOR_ID = i.INSTRUCTOR_ID " +
+                                   $"WHERE ia.COURSE_ID = {courseId} AND ia.INSTRUCTOR_ID = {instructorId}";
                     OracleCommand cmd = new OracleCommand(query, conn);
                     cmd.BindByName = true;
                     cmd.CommandType = System.Data.CommandType.Text;
 
                     conn.Open();
                     OracleDataReader reader = cmd.ExecuteReader();
-                    Enrolment enrolment = new Enrolment();
+                    InstructorAssignment assignment = new InstructorAssignment();
                     while (reader.Read())
                     {
-                        enrolment.Student_Id = reader.GetInt32(0);
-                        enrolment.Course_Id = reader.GetInt32(1);
-                        enrolment.EnrolledOnDate = reader.GetDateTime(2);
-                        enrolment.Student_Name = reader.GetString(3);
-                        enrolment.Course_Title = reader.GetString(4);
-                        enrolment.Is_Deleted = reader.GetInt32(5);
+                        assignment.Course_Id = reader.GetInt32(0);
+                        assignment.Course_Title = reader.GetString(1);
+                        assignment.Instructor_Id = reader.GetInt32(2);
+                        assignment.Instructor_Name = reader.GetString(3);
+                        assignment.AssignedDate = reader.GetDateTime(4);
                     }
                     reader.Dispose();
                     conn.Close();
-                    return enrolment;
+                    return assignment;
                 }
             }
             catch (Exception exception)
@@ -119,17 +119,17 @@ namespace Elearning.Models
             }
         }
 
-        public void DeleteEnrolment(int studentId, int courseId)
+        public void DeleteAssignment(int courseId, int instructorId)
         {
             try
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
-                    string queryString = "DELETE FROM ENROLMENT WHERE STUDENT_ID = :STUDENT_ID AND COURSE_ID = :COURSE_ID";
+                    string queryString = "DELETE FROM INSTRUCTOR_ASSIGNMENT WHERE COURSE_ID = :COURSE_ID AND INSTRUCTOR_ID = :INSTRUCTOR_ID";
 
                     OracleCommand cmd = new OracleCommand(queryString, conn);
-                    cmd.Parameters.Add(new OracleParameter("STUDENT_ID", studentId));
                     cmd.Parameters.Add(new OracleParameter("COURSE_ID", courseId));
+                    cmd.Parameters.Add(new OracleParameter("INSTRUCTOR_ID", instructorId));
 
                     conn.Open();
                     cmd.ExecuteNonQuery();
@@ -142,6 +142,5 @@ namespace Elearning.Models
                 throw;
             }
         }
-
     }
 }

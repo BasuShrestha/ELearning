@@ -39,6 +39,9 @@
                         <li class="nav-item @(controller == "Lesson" && action == "LessonView" ? "active" : "")">
                             <a class="nav-link @(controller == "Lesson" && action == "LessonView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Lesson" asp-action="LessonView">Lessons</a>
                         </li>
+                       @*  <li class="nav-item @(controller == "InstructorAssignment" && action == "InstructorAssignmentView" ? "active" : "")">
+                            <a class="nav-link @(controller == "InstructorAssignment" && action == "InstructorAssignmentView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="InstructorAssignment" asp-action="InstructorAssignmentView">Instructors</a>
+                        </li> *@
                         <li class="nav-item @(controller == "Enrolment" && action == "EnrolmentView" ? "active" : "")">
                             <a class="nav-link @(controller == "Enrolment" && action == "EnrolmentView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Enrolment" asp-action="EnrolmentView">Enrolments</a>
                         </li>

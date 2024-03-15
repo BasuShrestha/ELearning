@@ -106,7 +106,7 @@
                             @{
                                 Console.WriteLine($"In here: {l.Lesson_Id}");
                             }
-                            <form asp-action="DeleteLesson" asp-route-id="@l.Lesson_Id" method="post" onsubmit="return confirm('Are you sure you want to delete this course?');">
+                            <form asp-action="DeleteLesson" asp-route-id="@l.Lesson_Id" method="get">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </div>
