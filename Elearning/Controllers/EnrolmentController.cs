@@ -8,7 +8,6 @@ namespace Elearning.Controllers
 {
     public class EnrolmentController : Controller
     {
-        // GET: EnrolmentController
         public ActionResult Index()
         {
             return View();
@@ -61,6 +60,38 @@ namespace Elearning.Controllers
             }
 
             return View();
+        }
+
+        public IActionResult ShowEnrolmentDetails(int studentId)
+        { 
+            EnrolledCourse enrolledCourse = new EnrolledCourse();
+            List<EnrolledCourse> enrolledCourses = enrolledCourse.GetEnrolledCoursesByStudentId(studentId);
+            ViewBag.EnrolledCourses = enrolledCourses;
+
+            Student student = new Student();
+            student.GetStudentById(studentId);
+            student = student.Students[0];
+            ViewBag.StudentDetails = student;
+
+            ViewBag.fromPage = "Enrolments";
+
+            return View("EnrolmentDetails");
+        }
+
+        public IActionResult ShowCourseProgress(int studentId, int courseId)
+        {
+            EnrolledCourse enrolledCourse = new EnrolledCourse();
+            List<EnrolledCourse> enrolledCourses = enrolledCourse.GetEnrolledCoursesByStudentId(studentId);
+            ViewBag.EnrolledCourses = enrolledCourses;
+
+            Student student = new Student();
+            student.GetStudentById(studentId);
+            student = student.Students[0];
+            ViewBag.StudentDetails = student;
+
+            ViewBag.fromPage = "Enrolments";
+
+            return View("CourseProgress");
         }
 
         // GET: EnrolmentController/Create

@@ -1,0 +1,92 @@
+﻿@model Elearning.Models.CourseProgress;
+
+@{
+    ViewData["Title"] = "CourseProgressView";
+    var courseProgresses = ViewBag.SQLData;
+}
+
+<h1>Course Progress</h1>
+
+<script>
+    setTimeout(function () {
+        document.getElementById("error-alert").style.display = "none";
+    }, 1500);
+    setTimeout(function () {
+        document.getElementById("success-alert").style.display = "none";
+    }, 1500);
+</script>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" id="error-alert" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+else if (TempData["Message"] != null)
+{
+    <div class="alert alert-info" id="success-alert" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+<a class="btn btn-primary" asp-action="AddProgress">Add Progress</a><br />
+
+@if (courseProgresses.Count > 0)
+{
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Lesson</th>
+                <th>Last Accessed Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{int sn = 1;}
+            @foreach (CourseProgress c in courseProgresses)
+            {
+                
+                <tr>
+                    @* <td>@e.Student_Id</td> *@
+                    @* <td>@sn</td> *@
+                    <td>@c.StudentName</td>
+                    <td>@c.CourseTitle</td>
+                    <td>@c.LessonTitle</td>
+                    <td>@c.LastAccessedDate</td>
+                    <td>@c.LessonStatus</td>
+                    <td>
+                        @* <a class="btn btn-primary" asp-action="UpdateCourseProgress" asp-route-id="@c.Enrollment_Id">Update</a> *@
+                        @* <form asp-action="UpdateCourseProgress" asp-controller="CourseProgress" method="get">
+                            <input type="hidden" name="Student_Id" value="@c.Student_Id" />
+                            <input type="hidden" name="Course_Id" value="@c.Course_Id" />
+                            <input type="submit" value="Update" class="btn btn-primary" />
+                        </form> *@
+                        <div class="btn-group gap-2">
+
+                        <form asp-action="ShowCourseProgressDetails" method="get">
+                            <input type="hidden" name="studentId" value="@c.StudentId" />
+                            <input type="hidden" name="lessonId" value="@c.LessonId" />
+                            <button type="submit" class="btn btn-info" style="color:white">Details</button>
+                        </form>
+                        <form asp-action="DeleteCourseProgress" method="get">
+                            <input type="hidden" name="studentId" value="@c.StudentId" />
+                            <input type="hidden" name="lessonId" value="@c.LessonId" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        </div>
+                    </td>
+                </tr>
+                sn++;
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>No CourseProgresss yet...</h3>
+}

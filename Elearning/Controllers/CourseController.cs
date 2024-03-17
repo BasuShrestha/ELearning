@@ -26,6 +26,27 @@ namespace Elearning.Controllers
             }
             return View();
         }
+
+        public IActionResult CourseDetails(int courseId)
+        {
+            Lesson lesson = new Lesson();
+            List<Lesson> courseLessons = lesson.GetLessonByCourseId(courseId);
+            ViewBag.CourseLessons = courseLessons;
+
+            Course course = new Course();
+            course.GetCourseById(courseId);
+            course = course.Courses[0];
+            ViewBag.Course = course;
+
+            
+
+            InstructorAssignment instructorAssignment = new InstructorAssignment();
+            List<InstructorAssignment> assignments = instructorAssignment.GetInstructorsForCourse(courseId);
+            ViewBag.Instructors = assignments;
+
+            return View("CourseDetails");
+        }
+
         public IActionResult AddCourse()
         {
             return View("AddCourseDetail");
@@ -50,10 +71,10 @@ namespace Elearning.Controllers
             }
         }
 
-        public IActionResult UpdateCourse(int id)
+        public IActionResult UpdateCourse(int courseId)
         { 
             Course course = new();
-            course.GetCourseById(id);
+            course.GetCourseById(courseId);
 
             ViewBag.sqldata = course;
             return View("UpdateCourse", course);
@@ -78,10 +99,10 @@ namespace Elearning.Controllers
             }
         }
         
-        public IActionResult DeleteCourse(int id)
+        public IActionResult DeleteCourse(int courseId)
         {
             Course course = new();
-            course.GetCourseById(id);
+            course.GetCourseById(courseId);
 
             ViewBag.sqldata = course.Courses[0];
             return View("DeleteCourse", course);

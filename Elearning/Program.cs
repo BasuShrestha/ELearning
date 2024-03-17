@@ -53,6 +53,10 @@ app.MapControllerRoute(
     name: "instructorAssignment",
     pattern: "{controller=InstructorAssignment}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "courseProgress",
+    pattern: "{controller=CourseProgress}/{action=Index}/{id?}");
+
 //app.MapControllerRoute(
 //    name: "course",
 //    pattern: "Course/{action=Index}/{id?}",

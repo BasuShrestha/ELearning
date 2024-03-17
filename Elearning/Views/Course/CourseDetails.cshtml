@@ -1,0 +1,110 @@
+﻿@model Elearning.Models.Course
+
+@{
+    ViewData["Title"] = "CourseDetails";
+    List<Lesson> lessons = ViewBag.CourseLessons;
+    Course course = ViewBag.Course;
+    List<InstructorAssignment> instructors = ViewBag.Instructors;
+}
+
+<h1>Course Details</h1>
+
+<a class="btn btn-primary" asp-action="CourseView" asp-controller="Course">Back to Course List</a>
+<br />
+<br />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Course Id
+        </dt>
+        <dd class="col-sm-10">
+            @course.Course_Id
+        </dd>
+        <dt class="col-sm-2">
+            Course Title
+        </dt>
+        <dd class="col-sm-10">
+            @course.Title
+        </dd>
+        <dt class="col-sm-2">
+            Description
+        </dt>
+        <dd class="col-sm-10">
+            @course.Description
+        </dd>
+    </dl>
+</div>
+
+<br /><br />
+<h4>Instructors for @{@course.Title}</h4>
+@if (instructors.Count > 0)
+{
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>S.N.</th>
+                <th>Instructor Id</th>
+                <th>Name</th>
+                <th>Assigned Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int sn = 1;
+            }
+            @foreach (InstructorAssignment ia in instructors.Where(i => i.Is_Deleted == 0))
+            {
+                <tr>
+                    <td>@sn</td>
+                    <td>@ia.Instructor_Id</td>
+                    <td>@ia.Instructor_Name</td>
+                    <td>@ia.AssignedDate</td>
+                </tr>
+                sn++;
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>No Instructors assigned to the course yet...</h3>
+}
+
+<br />
+<br />
+<h4>Lessons in @{
+        @course.Title
+    }</h4>
+@if (lessons.Count > 0)
+{
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>S.N.</th>
+                <th>Lesson Id</th>
+                <th>Title</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int sn = 1;}
+            @foreach (Lesson l in lessons.Where(l => l.Is_Deleted == 0))
+            {
+                <tr>
+                    <td>@sn</td>
+                    <td>@l.Lesson_Id</td>
+                    <td>@l.Title</td>
+                    <td>@l.Content_Name</td>
+                </tr>
+                sn++;
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>No Lessons in the course yet...</h3>
+}

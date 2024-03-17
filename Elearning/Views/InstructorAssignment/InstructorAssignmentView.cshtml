@@ -7,7 +7,6 @@
 <h1>Instructor Assignment View</h1>
 
 <script>
-    // Hide alert after 3 seconds
     setTimeout(function () {
         document.getElementById("error-alert").style.display = "none";
     }, 1500);
@@ -51,8 +50,6 @@ else if (TempData["Message"] != null)
             </tr>
         </thead>
         <tbody>
-
-            @* @foreach (Enrollment l in assignmentSQLData.Assignments.Where(l => l.Is_Deleted == 0)) *@
             @foreach (InstructorAssignment assignment in assignmentSQLData.Assignments.Where(en => en.Is_Deleted == 0))
             {
                 <tr>

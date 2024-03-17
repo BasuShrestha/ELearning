@@ -14,7 +14,7 @@
             Instructor Id
         </dt>
         <dd class = "col-sm-10">
-            @instructor.Instructor_Id
+            @instructor.InstructorId
         </dd>
         <dt class = "col-sm-2">
             Name
@@ -31,7 +31,7 @@
     </dl>
     
     <form asp-action="DeleteInstructorDetail" asp-controller="Instructor" method="post">
-        <input type="hidden" name="instructorId" value="@instructor.Instructor_Id" />
+        <input type="hidden" name="instructorId" value="@instructor.InstructorId" />
         <input type="submit" value="Delete" class="btn btn-danger" />
         <a class="btn btn-primary" asp-action="InstructorView" asp-controller="Instructor">Cancel</a>
     </form>

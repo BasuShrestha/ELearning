@@ -1,0 +1,55 @@
+﻿@model Elearning.Models.CourseProgress
+
+@{
+    ViewData["Title"] = "AddCourseProgressDetail";
+}
+
+<div class="row">
+    <div class="container mt-4">
+        <h2>Fill the Course Progress Details Below</h2>
+        <form asp-action="AddProgressDetail" asp-asp-controller="CourseProgress" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-6">
+                <label asp-for="StudentId" class="control-label">Student</label>
+                <select asp-for="StudentId" asp-items="@ViewBag.Students" class="form-control">
+                    <option value="">Select a student</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+                <label asp-for="CourseId" class="control-label">Course</label>
+                <select asp-for="CourseId" asp-items="@ViewBag.EnrolledCourses" class="form-control">
+                    <option value="">Select a course</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+                <label asp-for="LessonId" class="control-label">Lesson</label>
+                <select asp-for="LessonId" asp-items="@ViewBag.EnrolledLessons" class="form-control">
+                    <option value="">Select a lesson</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+                <label asp-for="LastAccessedDate" class="control-label">Last Accessed Date</label>
+                <input asp-for="LastAccessedDate" type="date" nameclass="form-control" />
+                <span asp-validation-for="LastAccessedDate" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+                <label asp-for="LessonStatus" class="control-label">Status</label>
+                <select asp-for="LessonStatus" asp-items="@ViewBag.StatusTypes" class="form-control">
+                    <option value="">Select a status</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Insert" class="btn btn-primary" />
+                <a class="btn btn-danger" asp-controller="CourseProgress" asp-action="CourseProgressView">Cancel</a>
+            </div>
+
+            <br />
+        </form>
+    </div>
+</div>
+

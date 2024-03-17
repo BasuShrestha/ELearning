@@ -28,12 +28,12 @@ namespace Elearning.Controllers
                 List<Instructor> availableInstructors = new List<Instructor> { };
                 foreach (Instructor i in instructor.Instructors)
                 {
-                    if (i.Is_Deleted == 0)
+                    if (i.IsDeleted == 0)
                     {
                         availableInstructors.Add(i);
                     }
                 }
-                ViewBag.InstructorList = new SelectList(availableInstructors, "Instructor_Id", "Name");
+                ViewBag.InstructorList = new SelectList(availableInstructors, "InstructorId", "Name");
             }
 
             Course course = new Course();
@@ -73,12 +73,12 @@ namespace Elearning.Controllers
                 List<Instructor> availableInstructors = new List<Instructor> { };
                 foreach (Instructor i in instructor.Instructors)
                 {
-                    if (i.Is_Deleted == 0)
+                    if (i.IsDeleted == 0)
                     {
                         availableInstructors.Add(i);
                     }
                 }
-                ViewBag.Instructors = new SelectList(availableInstructors, "Instructor_Id", "Name");
+                ViewBag.Instructors = new SelectList(availableInstructors, "InstructorId", "Name");
             }
 
             Course course = new Course();
@@ -115,7 +115,7 @@ namespace Elearning.Controllers
                     || string.IsNullOrEmpty(assignment.Instructor_Id.ToString())
                     || string.IsNullOrEmpty(assignment.AssignedDate.ToString()))
                 {
-                    TempData["Message"] = "Empty field values";
+                    TempData["ErrorMessage"] = "Empty field values";
                     return View();
                 }
                 else

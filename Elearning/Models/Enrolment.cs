@@ -1,4 +1,5 @@
-﻿using Elearning.Utilities;
+﻿using System.Data;
+using Elearning.Utilities;
 using NuGet.Protocol;
 using Oracle.ManagedDataAccess.Client;
 
@@ -13,7 +14,9 @@ namespace Elearning.Models
         public string Course_Title { get; set; }
         public int Is_Deleted { get; set; }
 
-        public ICollection<Enrolment> Enrolments = new List<Enrolment>();
+        public List<Enrolment> Enrolments = new List<Enrolment>();
+
+        public List<Course> EnrolledCourses = new List<Course>();
 
         public string connString = ProjectConstants.connString;
 
@@ -81,6 +84,53 @@ namespace Elearning.Models
                 throw;
             }
         }
+
+        //public List<Course> GetEnrolledCourses(int studentId)
+        //{
+        //    try
+        //    {
+        //        Console.WriteLine(studentId);
+        //        using (OracleConnection conn = new OracleConnection(connString))
+        //        {
+        //            string queryString = $"SELECT c.TITLE,c.DESCRIPTION,c.IS_DELETED,e.ENROLLED_ON_DATE,e.IS_DELETED " +
+        //                                 $"FROM ENROLMENT e JOIN COURSE c ON e.COURSE_ID = c.COURSE_ID WHERE e.STUDENT_ID = {studentId}";
+        //            OracleCommand cmd = new OracleCommand(queryString, conn);
+        //            cmd.BindByName = true;
+        //            cmd.CommandType = CommandType.Text;
+
+        //            conn.Open();
+        //            OracleDataReader reader = cmd.ExecuteReader();
+        //            while (reader.Read())
+        //            {
+
+        //                Student student = new Student
+        //                {
+        //                    Student_Id = reader.GetInt32(0),
+        //                    Student_Name = reader.GetString(1),
+        //                    Contact = reader.GetString(2),
+        //                    DOB = reader.GetDateTime(3),
+        //                    Email = reader.GetString(4),
+        //                    Country = reader.GetString(5),
+        //                    Is_Deleted = reader.GetInt32(6)
+        //                };
+        //                Students.Add(student);
+
+        //            }
+        //            Console.WriteLine(Students[0]);
+        //            reader.Dispose();
+        //            conn.Close();
+        //        }
+
+        //        return EnrolledCourses;
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        Console.WriteLine(exception.Message);
+        //        throw;
+
+        //    }
+
+        //}
 
         public Enrolment GetEnrolmentById(int studentId, int courseId)
         {

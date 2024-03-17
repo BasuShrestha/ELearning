@@ -52,6 +52,14 @@ namespace Elearning.Controllers
             return View("../InstructorAssignment/InstructorAssignmentView");
         }
 
+        public IActionResult ViewCourseAssignments()
+        {
+            InstructorAssignment instructorAssignment = new InstructorAssignment();
+            instructorAssignment.GetInstructorAssignments();
+            ViewBag.SQLData = instructorAssignment;
+            return View("../InstructorAssignment/InstructorAssignmentView");
+        }
+
         public IActionResult AddInstructor()
         {
             Course course = new Course();
@@ -74,17 +82,14 @@ namespace Elearning.Controllers
         [HttpPost]
         public IActionResult AddInstructorDetail(Instructor instructor)
         {
-            if (string.IsNullOrEmpty(instructor.Name) || string.IsNullOrEmpty(instructor.Course_Id.ToString()))
+            if (string.IsNullOrEmpty(instructor.Name) || string.IsNullOrEmpty(instructor.Email))
             {
                 TempData["Message"] = "Empty field values";
                 return View();
             }
             else 
             { 
-                Instructor newInstructor = new Instructor();
-                newInstructor.Name = instructor.Name;
-                newInstructor.Course_Id = instructor.Course_Id;
-                newInstructor.AddInstructor(newInstructor);
+                instructor.AddInstructor(instructor);
                 ViewBag.Message = "Instructor details added";
                 TempData["Message"] = "Instructor details inserted successfully";
                 return RedirectToAction("InstructorView");
@@ -117,19 +122,19 @@ namespace Elearning.Controllers
         [HttpPost]
         public IActionResult UpdateInstructor(Instructor instructor)
         {
-            if (string.IsNullOrEmpty(instructor.Name) || string.IsNullOrEmpty(instructor.Course_Id.ToString()))
+            if (string.IsNullOrEmpty(instructor.Name) 
+                || string.IsNullOrEmpty(instructor.Email)
+                || string.IsNullOrEmpty(instructor.Contact))
             {
                 TempData["Message"] = "Empty fields submitted";
                 return RedirectToAction("InstructorView");
             }
             else
             {
-                Instructor updatedInstructor = new Instructor();
-                updatedInstructor.Name = instructor.Name;
-                updatedInstructor.Course_Id = instructor.Course_Id;
+                Console.WriteLine(instructor.InstructorId);
                 Console.WriteLine(instructor.Name);
-                Console.WriteLine(instructor.Course_Id);
-                updatedInstructor.UpdateInstructor(instructor);
+                Console.WriteLine(instructor.Email);
+                instructor.UpdateInstructor(instructor);
                 TempData["Message"] = $"Instructor: {instructor.Name} updated successfully";
                 return RedirectToAction("InstructorView");
             }

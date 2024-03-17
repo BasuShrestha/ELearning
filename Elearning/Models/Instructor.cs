@@ -7,10 +7,12 @@ namespace Elearning.Models
 {
     public class Instructor
     {
-        public int? Instructor_Id { get; set; }
+        public int? InstructorId { get; set; }
         public string? Name { get; set; }
-        public int? Course_Id { get; set; }
-        public int? Is_Deleted { get; set; }
+        public string? Email { get; set; }
+        public string? Contact {  get; set; }
+        public int? CourseId { get; set; }
+        public int? IsDeleted { get; set; }
 
         public string? Course_Name { get; set; }
 
@@ -24,7 +26,7 @@ namespace Elearning.Models
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
-                    string query = "SELECT i.INSTRUCTOR_ID, i.NAME, i.COURSE_ID, i.IS_DELETED, c.TITLE FROM INSTRUCTOR i JOIN COURSE c ON i.COURSE_ID = c.COURSE_ID";
+                    string query = "SELECT INSTRUCTOR_ID, NAME, EMAIL, CONTACT, IS_DELETED FROM INSTRUCTOR";
                     OracleCommand cmd = new OracleCommand(query, conn);
                     cmd.BindByName = true;
                     cmd.CommandType = System.Data.CommandType.Text;
@@ -32,13 +34,20 @@ namespace Elearning.Models
                     conn.Open();
                     OracleDataReader reader = cmd.ExecuteReader();
                     while (reader.Read()) 
-                    { 
+                    {
+                        //Instructor instructor = new Instructor();
+                        //instructor.Instructor_Id = reader.GetInt32(0);
+                        //instructor.Name = reader.GetString(1);
+                        //instructor.Course_Id = reader.GetInt32(2);
+                        //instructor.Is_Deleted = reader.GetInt32(3);
+                        //instructor.Course_Name = reader.GetString(4);
+                        //Instructors.Add(instructor);
                         Instructor instructor = new Instructor();
-                        instructor.Instructor_Id = reader.GetInt32(0);
+                        instructor.InstructorId = reader.GetInt32(0);
                         instructor.Name = reader.GetString(1);
-                        instructor.Course_Id = reader.GetInt32(2);
-                        instructor.Is_Deleted = reader.GetInt32(3);
-                        instructor.Course_Name = reader.GetString(4);
+                        instructor.Email = reader.GetString(2);
+                        instructor.Contact = reader.GetString(3);
+                        instructor.IsDeleted = reader.GetInt32(4);
                         Instructors.Add(instructor);
                     }
                     reader.Dispose();
@@ -48,6 +57,7 @@ namespace Elearning.Models
             catch (Exception exception) 
             { 
                 Console.WriteLine(exception.ToString());
+                throw;
             }
         }
 
@@ -57,8 +67,7 @@ namespace Elearning.Models
             {
                 using (OracleConnection conn = new OracleConnection(connString))
                 {
-                    string query = $"SELECT i.INSTRUCTOR_ID, i.NAME, i.COURSE_ID, i.IS_DELETED, c.TITLE FROM INSTRUCTOR i JOIN COURSE c ON i.COURSE_ID = c.COURSE_ID " +
-                                   $"WHERE INSTRUCTOR_ID = {instructorId}";
+                    string query = $"SELECT INSTRUCTOR_ID, NAME, EMAIL, CONTACT, IS_DELETED FROM INSTRUCTOR WHERE INSTRUCTOR_ID = {instructorId}";
                     OracleCommand cmd = new OracleCommand(query, conn);
                     cmd.BindByName = true;
                     cmd.CommandType = System.Data.CommandType.Text;
@@ -67,11 +76,11 @@ namespace Elearning.Models
                     Instructor instructor = new Instructor();
                     while (reader.Read())
                     {
-                        instructor.Instructor_Id = reader.GetInt32(0);
+                        instructor.InstructorId = reader.GetInt32(0);
                         instructor.Name = reader.GetString(1);
-                        instructor.Course_Id = reader.GetInt32(2);
-                        instructor.Is_Deleted = reader.GetInt32(3);
-                        instructor.Course_Name = reader.GetString(4);
+                        instructor.Email = reader.GetString(2);
+                        instructor.Contact = reader.GetString(3);
+                        instructor.IsDeleted = reader.GetInt32(4);
                     }
                     reader.Dispose();
                     conn.Close();
@@ -91,7 +100,7 @@ namespace Elearning.Models
             {
                 using (OracleConnection conn = new OracleConnection(connString)) 
                 {
-                    string query = $"INSERT INTO INSTRUCTOR (NAME, COURSE_ID) VALUES('{instructor.Name}',{instructor.Course_Id})";
+                    string query = $"INSERT INTO INSTRUCTOR (NAME, EMAIL, CONTACT) VALUES('{instructor.Name}','{instructor.Email}','{instructor.Contact}')";
                     OracleCommand cmd = new OracleCommand( query, conn);
                     conn.Open();
                     cmd.ExecuteReader();
@@ -101,6 +110,7 @@ namespace Elearning.Models
             catch (Exception exception) 
             { 
                 Console.WriteLine (exception.ToString());
+                throw;
             }
         }
 
@@ -112,11 +122,13 @@ namespace Elearning.Models
                 {
 
                     Console.WriteLine(instructor.Name);
-                    Console.WriteLine(instructor.Course_Id);
-                    Console.WriteLine(instructor.Instructor_Id);
+                    Console.WriteLine(instructor.Email);
+                    Console.WriteLine(instructor.Contact);
+                    Console.WriteLine(instructor.InstructorId);
                     string query = $"UPDATE INSTRUCTOR SET NAME = '{instructor.Name}', " +
-                                   $"COURSE_ID = '{instructor.Course_Id}' " +
-                                   $"WHERE INSTRUCTOR_ID = {instructor.Instructor_Id}";
+                                   $"EMAIL = '{instructor.Email}', " +
+                                   $"CONTACT = '{instructor.Contact}' " +
+                                   $"WHERE INSTRUCTOR_ID = {instructor.InstructorId}";
                     OracleCommand cmd = new OracleCommand(query, conn);
                     conn.Open();
                     cmd.ExecuteReader();
@@ -126,6 +138,7 @@ namespace Elearning.Models
             catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
+                throw;
             }
         }
 
@@ -145,6 +158,7 @@ namespace Elearning.Models
             catch (Exception exception)
             { 
                 Console.WriteLine(exception.ToString());
+                throw;
             }
         }
     }

@@ -119,6 +119,45 @@ namespace Elearning.Models
             }
         }
 
+        public List<InstructorAssignment> GetInstructorsForCourse(int courseId)
+        {
+            try
+            {
+                using (OracleConnection conn = new OracleConnection(connString))
+                {
+                    string query = $"SELECT c.COURSE_ID, c.TITLE, i.INSTRUCTOR_ID, i.NAME, ia.ASSIGNED_DATE FROM INSTRUCTOR_ASSIGNMENT ia " +
+                                   $"JOIN COURSE c ON ia.COURSE_ID = c.COURSE_ID JOIN INSTRUCTOR i ON ia.INSTRUCTOR_ID = i.INSTRUCTOR_ID " +
+                                   $"WHERE ia.COURSE_ID = {courseId} " +
+                                   $"AND (SELECT COUNT(INSTRUCTOR_ID) FROM INSTRUCTOR_ASSIGNMENT WHERE INSTRUCTOR_ID = ia.INSTRUCTOR_ID) >= 2";
+                    OracleCommand cmd = new OracleCommand(query, conn);
+                    cmd.BindByName = true;
+                    cmd.CommandType = System.Data.CommandType.Text;
+
+                    conn.Open();
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    List<InstructorAssignment> assignments = new List<InstructorAssignment>();
+                    while (reader.Read())
+                    {
+                        InstructorAssignment assignment = new InstructorAssignment();
+                        assignment.Course_Id = reader.GetInt32(0);
+                        assignment.Course_Title = reader.GetString(1);
+                        assignment.Instructor_Id = reader.GetInt32(2);
+                        assignment.Instructor_Name = reader.GetString(3);
+                        assignment.AssignedDate = reader.GetDateTime(4);
+                        assignments.Add(assignment);
+                    }
+                    reader.Dispose();
+                    conn.Close();
+                    return assignments;
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                throw;
+            }
+        }
+
         public void DeleteAssignment(int courseId, int instructorId)
         {
             try

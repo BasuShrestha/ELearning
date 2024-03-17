@@ -99,7 +99,7 @@ namespace Elearning.Controllers
         public IActionResult UpdateLesson(int id)
         {
             Lesson lesson = new();
-            lesson = lesson.GetLessonById(id);
+            lesson = lesson.GetLessonByLessonId(id);
             ViewBag.SQLData = lesson;
 
             Course course = new Course();
@@ -157,7 +157,7 @@ namespace Elearning.Controllers
         public IActionResult DeleteLesson(int id)
         {
             Lesson lesson = new();
-            lesson = lesson.GetLessonById(id);
+            lesson = lesson.GetLessonByLessonId(id);
             ViewBag.SQLData = lesson;
             return View("DeleteLesson", lesson);
         }

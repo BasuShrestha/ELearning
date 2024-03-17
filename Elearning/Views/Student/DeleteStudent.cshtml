@@ -1,0 +1,56 @@
+﻿@model Elearning.Models.Student
+
+@{
+    ViewData["Title"] = "DeleteStudent";
+    Student student = new Student();
+    student = ViewBag.sqldata;
+}
+
+<h3>Are you sure you want to delete @{
+        @student.Student_Name
+    } from student list?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Student Id
+        </dt>
+        <dd class="col-sm-10">
+            @student.Student_Id
+        </dd>
+        <dt class="col-sm-2">
+            Name
+        </dt>
+        <dd class="col-sm-10">
+            @student.Student_Name
+        </dd>
+        <dt class="col-sm-2">
+            Contact
+        </dt>
+        <dd class="col-sm-10">
+            @student.Contact
+        </dd>
+        <dt class="col-sm-2">
+            Date Of Birth
+        </dt>
+        <dd class="col-sm-10">
+            @student.DOB
+        </dd>
+        <dt class="col-sm-2">
+            Email
+        </dt>
+        <dd class="col-sm-10">
+            @student.Email
+        </dd>
+        <dt class="col-sm-2">
+            Country
+        </dt>
+        <dd class="col-sm-10">
+            @student.Country
+        </dd>
+
+    <form asp-action="DeleteStudentDetail" asp-controller="Student" method="post">
+        <input type="hidden" name="studentId" value="@student.Student_Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a class="btn btn-primary" asp-action="StudentView" asp-controller="Student">Cancel</a>
+    </form>
+</div>

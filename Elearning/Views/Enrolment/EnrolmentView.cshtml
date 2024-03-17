@@ -77,7 +77,8 @@ else if (TempData["Message"] != null)
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>Student Id</th>
+                @* <th>Student Id</th> *@
+                <th>S.N.</th>
                 <th>Course Id</th>
                 <th>Student</th>
                 <th>Course</th>
@@ -87,11 +88,13 @@ else if (TempData["Message"] != null)
         </thead>
         <tbody>
 
-            @* @foreach (Enrollment l in enrolment.Enrolments.Where(l => l.Is_Deleted == 0)) *@
+            @{int sn = 1;}
             @foreach (Enrolment e in enrolment.Enrolments.Where(en => en.Is_Deleted == 0))
             {
+                
                 <tr>
-                    <td>@e.Student_Id</td>
+                    @* <td>@e.Student_Id</td> *@
+                    <td>@sn</td>
                     <td>@e.Course_Id</td>
                     <td>@e.Student_Name</td>
                     <td>@e.Course_Title</td>
@@ -103,13 +106,22 @@ else if (TempData["Message"] != null)
                             <input type="hidden" name="Course_Id" value="@e.Course_Id" />
                             <input type="submit" value="Update" class="btn btn-primary" />
                         </form> *@
+                        <div class="btn-group gap-2">
+
+                        <form asp-action="ShowEnrolmentDetails" method="get">
+                            <input type="hidden" name="studentId" value="@e.Student_Id" />
+                            <input type="hidden" name="courseId" value="@e.Course_Id" />
+                            <button type="submit" class="btn btn-info" style="color:white">Details</button>
+                        </form>
                         <form asp-action="DeleteEnrolment" method="get">
                             <input type="hidden" name="studentId" value="@e.Student_Id" />
                             <input type="hidden" name="courseId" value="@e.Course_Id" />
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
+                        </div>
                     </td>
                 </tr>
+                sn++;
             }
         </tbody>
     </table>

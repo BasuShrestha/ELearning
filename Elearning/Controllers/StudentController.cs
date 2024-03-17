@@ -24,6 +24,22 @@ namespace Elearning.Controllers
             return View();
         }
 
+        public IActionResult ShowEnrolmentDetails(int studentId)
+        {
+            EnrolledCourse enrolledCourse = new EnrolledCourse();
+            List<EnrolledCourse> enrolledCourses = enrolledCourse.GetEnrolledCoursesByStudentId(studentId);
+            ViewBag.EnrolledCourses = enrolledCourses;
+
+            Student student = new Student();
+            student.GetStudentById(studentId);
+            student = student.Students[0];
+            ViewBag.StudentDetails = student;
+
+            ViewBag.fromPage = "Students";
+
+            return View("../Enrolment/EnrolmentDetails");
+        }
+
         public IActionResult AddStudent()
         {
             return View("AddStudentDetail");
@@ -80,20 +96,25 @@ namespace Elearning.Controllers
             }
         }
 
-        public IActionResult DeleteStudent()
-        { 
-            return View(new Student());
+        [HttpGet]
+        public IActionResult DeleteStudent(int studentId)
+        {
+            Student student = new Student();
+            student.GetStudentById(studentId);
+            student = student.Students[0];
+            ViewBag.sqldata = student;
+            return View("DeleteStudent", student);
         }
 
         [HttpPost]
-        public IActionResult DeleteStudent(int id)
+        public IActionResult DeleteStudentDetail(int studentId)
         {
             try
             {
                 Student student = new Student();
-                student.DeleteById(id);
+                student.DeleteById(studentId);
                 ViewBag.Message = $"Student deleted from the database";
-                Console.WriteLine(id);
+                Console.WriteLine(studentId);
                 TempData["Message"] = "Student deleted!";
                 return RedirectToAction("StudentView");
             }

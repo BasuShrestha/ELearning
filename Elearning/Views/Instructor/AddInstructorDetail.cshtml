@@ -15,12 +15,15 @@
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Course_Id" class="form-label">Course:</label>
-                <select asp-for="Course_Id" asp-items="@ViewBag.CourseList" class="form-control">
-                    <option value="">Please select a course</option>
-                </select>
-
+                <label asp-for="Email" class="form-label">Email:</label>
+                <input asp-for="Email" class="form-control" required>
             </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Contact" class="form-label">Contact:</label>
+                <input asp-for="Contact" class="form-control" required>
+            </div>
+            
             <br />
             <div class="form-group">
                 <input type="submit" value="Insert" class="btn btn-primary" />
@@ -30,8 +33,3 @@
         </form>
     </div>
 </div>
-@* 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div> *@
-

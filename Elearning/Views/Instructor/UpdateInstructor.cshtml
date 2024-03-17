@@ -18,11 +18,13 @@
                         <label for="name">Name</label>
                         <input type="text" id="name" name="Name" class="form-control" style="height: 40px;" value="@instructor.Name" />
                     </div>
-                    <div class="form-group mb-3">
-                        <label asp-for="Course_Id" class="form-label">Course:</label>
-                        <select asp-for="Course_Id" asp-items="@ViewBag.CourseList" class="form-control">
-                            <option value="">Select a course</option>
-                        </select>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="Email" class="form-control" style="height: 40px;" value="@instructor.Email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Contact</label>
+                        <input type="text" id="contact" name="Contact" class="form-control" style="height: 40px;" value="@instructor.Contact" />
                     </div>
                     @* <div class="form-group">
                         <label for="courseId">Course_Id</label>
@@ -30,7 +32,7 @@
                     </div> *@
                     <br />
                 </div>
-                <input type="hidden" name="Instructor_Id" value="@instructor.Instructor_Id"/>
+                <input type="hidden" name="InstructorId" value="@instructor.InstructorId"/>
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Update Instructor</button>

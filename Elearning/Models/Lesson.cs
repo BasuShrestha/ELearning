@@ -55,7 +55,7 @@ namespace Elearning.Models
             }
         }
 
-        public Lesson GetLessonById(int lessonId)
+        public Lesson GetLessonByLessonId(int lessonId)
         {
             try
             {
@@ -82,6 +82,44 @@ namespace Elearning.Models
                     reader.Dispose();
                     conn.Close();
                     return lesson;
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.ToString());
+                return null;
+            }
+        }
+
+        public List<Lesson> GetLessonByCourseId(int courseId)
+        {
+            try
+            {
+                using (OracleConnection conn = new OracleConnection(connString))
+                {
+                    string query = $"SELECT LESSON_ID, TITLE, COURSE_ID, IS_DELETED, CONTENT_NAME " +
+                                   $"FROM LESSON WHERE COURSE_ID = {courseId}";
+                    OracleCommand cmd = new OracleCommand(query, conn);
+                    cmd.BindByName = true;
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    conn.Open();
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    List<Lesson> courseLessons = new List<Lesson>();
+                    
+                    while (reader.Read())
+                    {
+                        Lesson lesson = new Lesson();
+
+                        lesson.Lesson_Id = reader.GetInt32(0);
+                        lesson.Title = reader.GetString(1);
+                        lesson.Course_Id = reader.GetInt32(2);
+                        lesson.Is_Deleted = reader.GetInt32(3);
+                        lesson.Content_Name = reader.GetString(4);
+                        courseLessons.Add(lesson);
+                    }
+                    reader.Dispose();
+                    conn.Close();
+                    return courseLessons;
                 }
             }
             catch (Exception exception)

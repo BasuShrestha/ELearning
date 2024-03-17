@@ -16,6 +16,8 @@ namespace Elearning.Models
 
         public List<Student> Students = new List<Student>();
 
+        public List<Course> EnrolledCourses = new List<Course>();
+
         public string connString = ProjectConstants.connString;
 
         public void GetStudents()
@@ -84,7 +86,6 @@ namespace Elearning.Models
                         Students.Add(student);
 
                     }
-                    Console.WriteLine(Students[0]);
                     reader.Dispose();
                     conn.Close();
                 }
@@ -96,33 +97,52 @@ namespace Elearning.Models
             }
         }
 
-        //public void AddStudent(Student student)
-        //{
-        //    try
-        //    {
-        //        student.DOB = student.BirthDate.ToString("yyyy-MM-dd");
-        //        Console.WriteLine(student.Student_Name);
-        //        Console.WriteLine(student.Contact);
-        //        Console.WriteLine(student.DOB);
-        //        Console.WriteLine(student.Email);
-        //        Console.WriteLine(student.Country);
-        //        using (OracleConnection conn = new OracleConnection(connString))
-        //        {
-        //            string queryString = $"INSERT INTO STUDENT (STUDENT_NAME, CONTACT, DOB, EMAIL, COUNTRY) " +
-        //                $"VALUES('{student.Student_Name}','{student.Contact}',{student.DOB},'{student.Email}','{student.Country}')";
+        public List<Course> GetEnrolledCourses(int studentId)
+        {
+            try
+            {
+                Console.WriteLine(studentId);
+                using (OracleConnection conn = new OracleConnection(connString))
+                {
+                    string queryString = $"SELECT c.TITLE,c.DESCRIPTION,c.IS_DELETED,e.ENROLLED_ON_DATE,e.IS_DELETED " +
+                                         $"FROM ENROLMENT e JOIN COURSE c ON e.COURSE_ID = c.COURSE_ID WHERE e.STUDENT_ID = {studentId}";
+                    OracleCommand cmd = new OracleCommand(queryString, conn);
+                    cmd.BindByName = true;
+                    cmd.CommandType = CommandType.Text;
 
-        //            OracleCommand cmd = new OracleCommand(queryString, conn);
-        //            conn.Open();
-        //            cmd.ExecuteReader();
-        //            conn.Close();
-        //        }
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        Console.WriteLine(exception.Message);
+                    conn.Open();
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
 
-        //    }
-        //}
+                        Student student = new Student
+                        {
+                            Student_Id = reader.GetInt32(0),
+                            Student_Name = reader.GetString(1),
+                            Contact = reader.GetString(2),
+                            DOB = reader.GetDateTime(3),
+                            Email = reader.GetString(4),
+                            Country = reader.GetString(5),
+                            Is_Deleted = reader.GetInt32(6)
+                        };
+                        Students.Add(student);
+
+                    }
+                    Console.WriteLine(Students[0]);
+                    reader.Dispose();
+                    conn.Close();
+                }
+
+                return EnrolledCourses;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                throw;
+
+            }
+
+        }
 
         public void AddStudent(Student student)
         {

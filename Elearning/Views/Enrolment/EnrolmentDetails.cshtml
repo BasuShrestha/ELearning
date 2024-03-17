@@ -1,0 +1,121 @@
+﻿@model Elearning.Models.EnrolledCourse
+
+@{
+    ViewData["Title"] = "EnrolmentDetails";
+
+    List<EnrolledCourse> enrolledCourses = ViewBag.EnrolledCourses;
+    Student student = ViewBag.StudentDetails;
+}
+
+<h1>Student Enrolment Details</h1>
+
+@if (ViewBag.fromPage == "Enrolments")
+{
+    <a class="btn btn-primary" asp-action="EnrolmentView" asp-controller="Enrolment">Back to Enrolment List</a>
+    <br />
+}
+else
+{
+    <a class="btn btn-primary" asp-action="StudentView" asp-controller="Student">Back to Student List</a>
+    <br />
+}
+
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Student Id
+        </dt>
+        <dd class = "col-sm-10">
+            @student.Student_Id
+        </dd>
+        <dt class = "col-sm-2">
+            Name
+        </dt>
+        <dd class = "col-sm-10">
+            @student.Student_Name
+        </dd>
+        <dt class = "col-sm-2">
+            Contact
+        </dt>
+        <dd class = "col-sm-10">
+            @student.Contact
+        </dd>
+        <dt class = "col-sm-2">
+            Date Of Birth
+        </dt>
+        <dd class = "col-sm-10">
+            @student.DOB
+        </dd>
+        <dt class = "col-sm-2">
+            Email
+        </dt>
+        <dd class = "col-sm-10">
+            @student.Email
+        </dd>
+        <dt class = "col-sm-2">
+            Country
+        </dt>
+        <dd class = "col-sm-10">
+            @student.Country
+        </dd>
+        <dt class="col-sm-2">
+            Total Courses Enrolled On
+        </dt>
+        <dd class="col-sm-10">
+            @enrolledCourses.Count
+        </dd>
+    </dl>
+</div>
+
+@if (enrolledCourses.Count > 0)
+{
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Course Id</th>
+                <th>Course Title</th>
+                <th>Description</th>
+                <th>Enrolment Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (EnrolledCourse e in enrolledCourses.Where(ec => ec.EnrolmentDeleted == 0))
+            {
+                <tr>
+                    <td>@e.Course_Id</td>
+                    <td>@e.Title</td>
+                    <td>@e.Description</td>
+                    <td>@e.EnrolledOnDate</td>
+                    <td>
+                        @* <a class="btn btn-primary" asp-action="UpdateStudent" asp-route-id="@student.Student_Id">Update</a> *@
+
+                        <div class="btn-group gap-2">
+                            <form asp-action="UpdateStudent" asp-controller="Student" method="get">
+                                <input type="hidden" name="studentID" value="@student.Student_Id" />
+                                <input type="submit" value="Update" class="btn btn-primary" />
+                            </form>
+
+                            <form asp-action="EnrolmentDetails" method="get">
+                                <input type="hidden" name="studentId" value="@student.Student_Id" />
+                                <input type="hidden" name="courseId" value="@e.Course_Id" />
+                                <button type="submit" class="btn btn-info" style="color:white">Details</button>
+                            </form>
+
+                            <form asp-action="DeleteStudent" method="get">
+                                <input type="hidden" name="studentId" value="@student.Student_Id" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>Student has not enrolled in any courses yet...</h3>
+}
