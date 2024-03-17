@@ -7,56 +7,62 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Elearning.styles.css" asp-append-version="true" />
+    <style>
+        /* Add your custom styles here. Adjust as necessary. */
+        body {
+            display: flex;
+        }
+
+        .sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            height: 100vh;
+            background-color: #f8f9fa; /* A light grey background */
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar .nav-link {
+            color: #333; /* Dark text color */
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #28a745; /* Green color for the active tab */
+            color: white;
+            border: 2px solid #218838; /* Slightly darker green border */
+            border-radius: 4px; /* Rounded corners for the border */
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+    </style>
 </head>
 @{
     var controller = Context.Request.RouteValues["controller"]?.ToString();
     var action = Context.Request.RouteValues["action"]?.ToString();
 }
-
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Elearning</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item @(controller == "Home" && action == "Index" ? "active" : "")">
-                            <a class="nav-link @(controller == "Home" && action == "Index" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item @(controller == "Course" && action == "CourseView" ? "active" : "")">
-                            <a class="nav-link @(controller == "Course" && action == "CourseView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Course" asp-action="CourseView">Courses</a>
-                        </li>
-                        <li class="nav-item @(controller == "Instructor" && action == "InstructorView" ? "active" : "")">
-                            <a class="nav-link @(controller == "Instructor" && action == "InstructorView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Instructor" asp-action="InstructorView">Instructors</a>
-                        </li>
-                        <li class="nav-item @(controller == "Student" && action == "StudentView" ? "active" : "")">
-                            <a class="nav-link @(controller == "Student" && action == "StudentView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Student" asp-action="StudentView">Students</a>
-                        </li>
-                        <li class="nav-item @(controller == "Lesson" && action == "LessonView" ? "active" : "")">
-                            <a class="nav-link @(controller == "Lesson" && action == "LessonView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Lesson" asp-action="LessonView">Lessons</a>
-                        </li>
-                       @*  <li class="nav-item @(controller == "InstructorAssignment" && action == "InstructorAssignmentView" ? "active" : "")">
-                            <a class="nav-link @(controller == "InstructorAssignment" && action == "InstructorAssignmentView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="InstructorAssignment" asp-action="InstructorAssignmentView">Instructors</a>
-                        </li> *@
-                        <li class="nav-item @(controller == "Enrolment" && action == "EnrolmentView" ? "active" : "")">
-                            <a class="nav-link @(controller == "Enrolment" && action == "EnrolmentView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Enrolment" asp-action="EnrolmentView">Enrolments</a>
-                        </li>
-                        <li class="nav-item @(controller == "Progress" && action == "ProgressView" ? "active" : "")">
-                            <a class="nav-link @(controller == "Progress" && action == "ProgressView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Progress" asp-action="ProgressView">Progress</a>
-                        </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li> *@
-                    </ul>
-                </div>
-            </div>
+    <div class="sidebar">
+        <!-- Brand Logo -->
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#28a745">Elearning</a>
+
+        <!-- Navigation Links -->
+        <nav class="nav flex-column">
+            <!-- Repeat this structure for each nav item -->
+            <a class="nav-link @(controller == "Home" && action == "Index" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <a class="nav-link @(controller == "Course" && action == "CourseView" ? "active" : "")" asp-area="" asp-controller="Course" asp-action="CourseView">Courses</a>
+            <a class="nav-link @(controller == "Instructor" && action == "InstructorView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Instructor" asp-action="InstructorView">Instructors</a>
+            <a class="nav-link @(controller == "Student" && action == "StudentView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Student" asp-action="StudentView">Students</a>
+            <a class="nav-link @(controller == "Lesson" && action == "LessonView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Lesson" asp-action="LessonView">Lessons</a>
+            <a class="nav-link @(controller == "Enrolment" && action == "EnrolmentView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Enrolment" asp-action="EnrolmentView">Enrolments</a>
+            <a class="nav-link @(controller == "Progress" && action == "ProgressView" ? "active text-white" : "text-dark")" asp-area="" asp-controller="Progress" asp-action="ProgressView">Progress</a>
+
+            <!-- ... other nav items ... -->
         </nav>
-    </header>
-    <div class="container">
+    </div>
+    <div class="main-content">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -67,9 +73,11 @@
             &copy; 2024 - Elearning - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
