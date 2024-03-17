@@ -1,0 +1,28 @@
+﻿@model Elearning.Models.Progress
+
+@{
+    ViewData["Title"] = "SearchStudent";
+}
+
+<div class="row">
+    <div class="container mt-4">
+        <h2>Select a student to add progress of</h2>
+        <form asp-action="SearchCourses" asp-asp-controller="Progress" method="get">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-6">
+                <label asp-for="StudentId" class="control-label">Student</label>
+                <select asp-for="StudentId" asp-items="@ViewBag.StudentsEnrolled" class="form-control">
+                    <option value="">Select a student</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <a class="btn btn-danger" asp-controller="Progress" asp-action="ProgressView">Cancel</a>
+            </div>
+
+            <br />
+        </form>
+    </div>
+</div>
+

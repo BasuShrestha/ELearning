@@ -1,0 +1,49 @@
+﻿@model Elearning.Models.Progress
+
+@{
+    ViewData["Title"] = "DeleteCourseProgress";
+    Progress courseProgress = new Progress();
+    courseProgress = ViewBag.SQLData;
+}
+
+<h3>Are you sure you want to delete the course progress of @{
+        @courseProgress.StudentName
+    } to @{
+        @courseProgress.CourseTitle
+    } for lesson @{@courseProgress.LessonTitle}?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Student
+        </dt>
+        <dd class="col-sm-10">
+            @courseProgress.StudentName
+        </dd>
+        <dt class="col-sm-2">
+            Course
+        </dt>
+        <dd class="col-sm-10">
+            @courseProgress.CourseTitle
+        </dd>
+        <dt class="col-sm-2">
+            Lesson
+        </dt>
+        <dd class="col-sm-10">
+            @courseProgress.LessonTitle
+        </dd>
+        <dt class="col-sm-2">
+            Last Accessed Date
+        </dt>
+        <dd class="col-sm-10">
+            @courseProgress.LastAccessedDate
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteProgressDetails" asp-controller="Progress" method="post">
+        <input type="hidden" name="studentId" value="@courseProgress.StudentId" />
+        <input type="hidden" name="lessonId" value="@courseProgress.LessonId" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a class="btn btn-primary" asp-action="ProgressView" asp-controller="Progress">Cancel</a>
+    </form>
+</div>
